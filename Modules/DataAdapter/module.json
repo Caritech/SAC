@@ -1,0 +1,13 @@
+{
+    "name": "DataAdapter",
+    "alias": "dataadapter",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\DataAdapter\\Providers\\DataAdapterServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

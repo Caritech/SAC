@@ -1,0 +1,36 @@
+# This is example Modules
+
+To give information for how to develop in module way using Vue Js.
+
+- Copy the Resources/assets folder to your newly created module directory.
+
+- cd into Modules/YOUR_MODULES
+
+- Go To app.js, change the el name
+
+        const app = new Vue({
+            el: '#app-example',
+            store,
+            router
+        });
+
+- Go To router.js, change Base:
+
+        const router = new VueRouter({
+            base: '/example',
+            mode: 'history',
+            routes
+        })
+
+- Go To index.blade.php, change the id name, link and srcipt reference :
+
+        <link rel="stylesheet" href="{{ mix('css/example.css') }}">
+        <div id="app-example">
+            <router-view></router-view>
+        </div>
+        <script src="{{ mix('js/example.js') }}"></script>
+
+run
+
+        npm install
+        npm run dev

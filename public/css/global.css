@@ -1,0 +1,57 @@
+.sidebar .nav-item .collapse {
+    z-index: 1000
+}
+
+.divider {
+    height: 1px;
+    margin: 5px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+/*
+    Existing Card header padding large,
+    use this class to override
+*/
+.card-header-sm {
+    padding: 5px 1.25rem !important;
+    line-height: 2.5;
+}
+
+.vuetable td,
+.vuetable th {
+    padding: 2px !important;
+}
+
+.profile-floating-btn-sc {
+    right: 5vw;
+    bottom: 4vh;
+    z-index: 999;
+    position: fixed;
+}
+
+.profile-floating-btn-sc button {
+    background-color: rgb(67, 160, 71);
+    ;
+
+    border-radius: 100px;
+    /* width: 65px; */
+    /* height: 65px; */
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border: none;
+    z-index: 2;
+    justify-content: center;
+}
+
+.profile-floating-btn .material-icons {
+    color: white;
+}

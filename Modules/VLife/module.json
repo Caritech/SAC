@@ -1,0 +1,13 @@
+{
+    "name": "VLife",
+    "alias": "vlife",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\VLife\\Providers\\VLifeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
