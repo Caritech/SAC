@@ -51,6 +51,7 @@ Route::prefix('vlife')->group(function () {
 
     // Needs Calculation
     Route::post('/my_contact/need_calculation/medical/save', 'VLifeController@saveNCMedical');
+    Route::get('/get_nc_data/{id}', 'VLifeController@getNCData');
 
     // Insurnace (Exissting & Recommendartion)
     Route::get('/my_contact/insurance/{id}/create', $vue_root);

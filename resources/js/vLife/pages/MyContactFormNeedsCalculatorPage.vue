@@ -503,12 +503,19 @@ export default {
             vlife_setting: {},
             contact_nc_data: {},
             medical: {
+<<<<<<< HEAD
                 personal_medical: [
                     {
                         description: "",
                         total_amount: "",
                     },
                 ],
+=======
+                personal_medical: [{
+                    description: "",
+                    total_amount: "",
+                } ]
+>>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
             },
             critical_illness: {
                 income_replacement: [
@@ -798,15 +805,46 @@ export default {
                                 "/edit/needs_calculator/medical"
                         )
                     }
+<<<<<<< HEAD
                 })
         },
+=======
+                });
+
+        },
+        calculateCI_income_replacement(rate,month,pmt){
+            let result = 0;
+            if(rate == 0){
+                result = (pmt * month);
+            }else{
+                let pow_rate = Math.pow( 1 + rate,  month);
+                result = (pmt * (( pow_rate - 1 ) / rate) / pow_rate);
+            }
+            return Math.round(result);
+        },
+        saveNC(){
+
+        }
+>>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
     },
     created() {
         var vm = this
         vm.id = vm.$route.params.id
         axios.get("/get_vlife_setting").then((response) => {
             vm.vlife_setting = response.data
+<<<<<<< HEAD
         })
     },
 }
+=======
+        });
+        // console.log(vm.medical.personal_medical);
+        axios.get('/vlife/get_nc_data/'+vm.id).then(response => {
+            vm.medical.personal_medical = response.data.medical.personal_medicals;
+            console.log(vm.medical.personal_medical);
+        });
+
+    }
+};
+>>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
 </script>
