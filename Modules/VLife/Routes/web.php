@@ -48,6 +48,7 @@ Route::prefix('vlife')->group(function () {
 
     // Needs Calculation
     Route::post('/my_contact/need_calculation/medical/save', 'VLifeController@saveNCMedical');
+    Route::get('/get_nc_data/{id}', 'VLifeController@getNCData');
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');
     Route::get('/get_country_option', 'VLifeController@getCountryOption');

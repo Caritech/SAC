@@ -286,7 +286,7 @@ export default {
                 personal_medical: [{
                     description: "",
                     total_amount: "",
-                }, ]
+                } ]
             },
             critical_illness: {
                 income_replacement: [{
@@ -533,6 +533,19 @@ export default {
                     }
                 });
 
+        },
+        calculateCI_income_replacement(rate,month,pmt){
+            let result = 0;
+            if(rate == 0){
+                result = (pmt * month);
+            }else{
+                let pow_rate = Math.pow( 1 + rate,  month);
+                result = (pmt * (( pow_rate - 1 ) / rate) / pow_rate);
+            }
+            return Math.round(result);
+        },
+        saveNC(){
+
         }
     },
     created() {
@@ -540,7 +553,13 @@ export default {
         vm.id = vm.$route.params.id;
         axios.get('/get_vlife_setting').then(response => {
             vm.vlife_setting = response.data
-        })
+        });
+        // console.log(vm.medical.personal_medical);
+        axios.get('/vlife/get_nc_data/'+vm.id).then(response => {
+            vm.medical.personal_medical = response.data.medical.personal_medicals;
+            console.log(vm.medical.personal_medical);
+        });
+
     }
 };
 </script>

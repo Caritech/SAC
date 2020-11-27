@@ -464,8 +464,15 @@ class VLifeController extends Controller
             ];
         }
         return \Response::json($state_lists);
+        //fddgit
     }
+    public function getNCData($id)
+    {
+        $nc_data = [];
+        $nc_data['medical']['personal_medicals'] = DB::table('vlife_medical')->where('contact_id', $id)->where('type', 'personal_medical')->get();
 
+        return \Response::json($nc_data);
+    }
     public function saveNCMedical(Request $request)
     {
         $data = $request->input();
