@@ -608,7 +608,7 @@ class VLifeController extends Controller
         $post = $request->input();
         $insurance_id = $post['insurance_id'];
         $status = $post['status'];
-        Insurance::find($insurance_id)->fill(['include_calculation' => $status])->save();
+        Insurance::find($insurance_id)->fill(['incl' => $status])->save();
     }
 
     public function deleteInsurance(Request $request)

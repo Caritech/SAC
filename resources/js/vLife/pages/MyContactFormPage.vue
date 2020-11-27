@@ -168,7 +168,9 @@
                         class="tab-pane container"
                         :class="{ 'active':this.$route.params.tab == 'summary'}"
                         id="summary"
-                    ></div>
+                    >
+                        <MyContactFormSummaryPage></MyContactFormSummaryPage>
+                    </div>
 
                     <div
                         class="tab-pane container"
@@ -187,6 +189,7 @@ import MyContactFormCashflowPage from "./MyContactFormCashflowPage"
 import MyContactFormNeedsCalculatorPage from "./MyContactFormNeedsCalculatorPage"
 import MyContactFormAssetInvestmentPage from "./MyContactFormAssetInvestmentPage"
 import MyContactFormInsurancePage from "./MyContactFormInsurancePage"
+import MyContactFormSummaryPage from "./MyContactFormSummaryPage"
 
 export default {
     props: ["tab"],
@@ -196,6 +199,7 @@ export default {
         "contact-needs-calculator": MyContactFormNeedsCalculatorPage,
         "contact-asset-investment": MyContactFormAssetInvestmentPage,
         MyContactFormInsurancePage,
+        MyContactFormSummaryPage,
     },
     data() {
         return {

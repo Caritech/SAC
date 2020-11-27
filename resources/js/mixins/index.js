@@ -104,6 +104,16 @@ Vue.mixin({
       str = str[0].toUpperCase() + str.slice(1);
       return str
     },
+    kebabCaseToString(str) {
+      let new_str =[];
+      let str_arr = str.split('_')
+      str_arr.forEach(function(v,k){
+        let str = v[0].toUpperCase() + v.slice(1);
+        new_str.push(str)
+      })
+      
+      return new_str.join(' ')
+    },
     contactPhotoUrl(v) {
       var base_url = window.location.origin;
       return base_url + '/view_image/' + v

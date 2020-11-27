@@ -63,6 +63,12 @@ Route::prefix('vlife')->group(function () {
     Route::post('/my_contact/insurance/delete', 'VLifeController@deleteInsurance');
     Route::post('/my_contact/insurance/update_to_existing', 'VLifeController@updateInsuranceToExisting');
 
+    // Summary
+    Route::get('/my_contact/summary/get_recommendation', 'SummaryController@get_recommendation');
+    Route::get('/my_contact/summary/get_income_by_type', 'SummaryController@get_income_by_type');
+    Route::get('/my_contact/summary/get_assets_investment_by_type', 'SummaryController@get_assets_investment_by_type');
+    Route::get('/my_contact/summary/get_insurance_policy_summary', 'SummaryController@get_insurance_policy_summary');
+    Route::get('/my_contact/summary/get_insurance_policy_premium', 'SummaryController@get_insurance_policy_premium');
 
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');

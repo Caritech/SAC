@@ -17,7 +17,6 @@ import MyContactAssetInvestmentPage from "./pages/MyContactAssetInvestmentPage"
 import MyContactAddNewPage from "./pages/MyContactAddNewPage"
 //insurance page
 import MyContactInsurancePage from "./pages/MyContactInsurancePage"
-//summary page
 /*
     Nested Route
 */
@@ -75,6 +74,7 @@ const routes = [
         path: "/my_contact/insurance/:insurance_id/edit", //id is insurance id
         component: MyContactInsurancePage,
     },
+
     // {
     //     path: "/my_contact/asset_investment/:id/edit",
     //     component: MyContactAssetInvestmentPage,

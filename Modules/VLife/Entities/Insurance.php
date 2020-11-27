@@ -10,7 +10,7 @@ class Insurance extends Model
     protected $fillable = [
         'contact_id',
         'insurance_type',
-        'include_calculation',
+        'incl',
         'insurer',
         'policy_no',
         'recommendation_no',
@@ -49,7 +49,7 @@ class Insurance extends Model
     {
         return [
             'insurance_type' => '',
-            'include_calculation' => '',
+            'incl' => '',
             'insurer' => '',
             'policy_no' => '',
             'recommendation_no' => '',

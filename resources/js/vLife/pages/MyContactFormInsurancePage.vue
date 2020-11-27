@@ -39,7 +39,7 @@
                             <div class="col text-center">
                                 <button
                                     class="btn btn-primary"
-                                    @click="addInsurance(type)"
+                                    @click="addInsurance(type,contact_id)"
                                 >
                                     <i class="fas fa-plus "> Add</i>
                                 </button>
@@ -92,7 +92,7 @@
                             >
                                 <b-form-checkbox
                                     value="1"
-                                    v-model="props.rowData.include_calculation"
+                                    v-model="props.rowData.incl"
                                     @change="inclRecommendation($event,props.rowData)"
                                     size="lg"
                                 ></b-form-checkbox>
@@ -393,9 +393,12 @@
 </template>
 
 <script>
+import mixinInsurance from "../../mixins/MyContact/insurance"
 export default {
+    mixins: [mixinInsurance],
     data() {
         return {
+            contact_id: null,
             existing_insurance_fields: [
                 {
                     name: "actions",
@@ -617,47 +620,6 @@ export default {
             return val
         },
 
-        addInsurance(type) {
-            let url =
-                "/my_contact/insurance/" +
-                this.id +
-                "/create?insurance_type=" +
-                type
-            this.$router.push(url)
-        },
-        deleteInsurance(data) {
-            var vm = this
-            let id = data.id
-            this.showConfirm(
-                "Confirmation",
-                "Confirm to delete ?",
-                function () {
-                    axios
-                        .post("/vlife/my_contact/insurance/delete", {
-                            insurance_id: id,
-                        })
-                        .then((res) => {
-                            vm.showSuccess(
-                                "Success",
-                                "Insurance has been removed"
-                            )
-                            location.reload()
-                        })
-                }
-            )
-        },
-        inclRecommendation($event, data) {
-            let id = data.id
-            let checked = $event ?? 0
-            axios
-                .post("/vlife/my_contact/insurance/update_incl", {
-                    insurance_id: id,
-                    status: checked,
-                })
-                .then((res) => {
-                    console.log(res.data)
-                })
-        },
         moveToExistingInsurance(data) {
             let id = data.id
             this.showConfirm(
@@ -679,14 +641,19 @@ export default {
         },
     },
     created() {
-        var vm = this
-        vm.id = vm.$route.params.id
+        this.id = this.$route.params.id
+        this.contact_id = this.id
         axios.get("/get_vlife_setting").then((response) => {
-            vm.vlife_setting = response.data
+            this.vlife_setting = response.data
         })
 
-        this.anchor = window.location.hash.replace("#", "")
-        if (window.location.hash == "") {
+        let window_hash = window.location.hash
+        let available_hash = ["#existing", "#recommendation"]
+        if (available_hash.includes(window_hash)) {
+            this.anchor = window.location.hash.replace("#", "")
+        }
+
+        if (!available_hash.includes(window_hash)) {
             this.anchor = "existing"
         }
     },
