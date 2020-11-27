@@ -18,6 +18,12 @@ use Modules\VLife\Entities\Contacts\Preference;
 use Modules\VLife\Entities\Contacts\ValuesBeliefs;
 use Modules\VLife\Entities\Contacts\Address;
 use Modules\VLife\Entities\Contacts\Notes;
+//insurance
+use Modules\VLife\Entities\Insurance;
+use Modules\VLife\Entities\Insurance\Coverage as InsuranceCoverage;
+use Modules\VLife\Entities\Insurance\ProjectedBenefit as InsuranceProjectedBenefit;
+use Modules\VLife\Classes\Lists;
+use Modules\VLife\Classes\VueTable;
 
 class VLifeController extends Controller
 {
@@ -489,5 +495,127 @@ class VLifeController extends Controller
         }
 
         return \Response::json($contact_id);
+    }
+
+
+    /* *****
+        *
+        Insurance Start
+        *
+    *****/
+    public function getInsurance(Request $request, $id)
+    {
+        $insurance_type = $request->insurance_type;
+        $data = Insurance::from('vlife_insurance AS i');
+        $data->where('contact_id', $id);
+        $data->selectRaw('
+            i.*,
+            SUM( DISTINCT
+                IF(vic.coverage_type IN ("Death","TPD"),
+                    vic.sum_assured,
+                    0
+                )
+            ) AS sum_death_tpd,
+            SUM( DISTINCT
+                IF(vic.coverage_type IN ("Critical Illesses"),
+                    vic.sum_assured,
+                    0
+                )
+            ) AS sum_critical_illness,
+            0 AS sum_accidental_death_tpd
+        ');
+        if ($insurance_type != null) {
+            $data->where('insurance_type', $insurance_type);
+        }
+
+        $data->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'i.id');
+        $data->groupBy('i.id');
+
+        $data = VueTable::fetch($data, $request, []);
+
+        return $data;
+    }
+
+    public function get_insurance_dropdown(Request $request)
+    {
+        return [
+            'coverage_frequency' => Lists::coverage_frequency(),
+            'coverage_type' => Lists::coverage_type(),
+            'insurance_assured' => Lists::insurance_assured(),
+            'insurance_plan_type' => Lists::insurance_plan_type(),
+            'premium_frequency' => Lists::premium_frequency(),
+            'premium_status' => Lists::premium_status(),
+            'relationship' => Lists::relationship(),
+        ];
+    }
+
+    public function getInsuranceDetail(Request $request, $id)
+    {
+        $data = Insurance::where('id', $id);
+        $data->with(['coverage', 'projected_benefit']);
+        $data = $data->first();
+        return $data;
+    }
+    public function saveInsurance(Request $request)
+    {
+        $form = $request->input('form');
+
+        $is_create = $form['is_create'] ?? false;
+        if ($is_create) {
+            $insurance = Insurance::create($form);
+            foreach ($form['coverage'] as $coverage) {
+                $coverage = new InsuranceCoverage($coverage);
+                $insurance->coverage()->save($coverage);
+            }
+            foreach ($form['projected_benefit'] as $projected_benefit) {
+                $projected_benefit = new InsuranceProjectedBenefit($projected_benefit);
+                $insurance->projected_benefit()->save($projected_benefit);
+            }
+            return $insurance;
+        } else {
+            //UPDATE
+            Insurance::find($form['id'])->fill($form)->save();
+            $insurance = Insurance::find($form['id']);
+
+            $projected_benefit = $form['projected_benefit'];
+            foreach ($form['coverage'] as $coverage) {
+                $coverage_id = $coverage['id'] ?? null;
+
+                if ($coverage_id != null) {
+                    $deleted = $coverage['deleted'] ?? false;
+                    if ($deleted) {
+                        InsuranceCoverage::find($coverage_id)->delete();
+                    } else {
+                        InsuranceCoverage::find($coverage_id)->fill($coverage)->save();
+                    }
+                } else {
+                    $coverage = new InsuranceCoverage($coverage);
+                    $insurance->coverage()->save($coverage);
+                }
+            }
+        }
+    }
+
+    public function updateIncludeCalculationStatus(Request $request)
+    {
+        $post = $request->input();
+        $insurance_id = $post['insurance_id'];
+        $status = $post['status'];
+        Insurance::find($insurance_id)->fill(['include_calculation' => $status])->save();
+    }
+
+    public function deleteInsurance(Request $request)
+    {
+        $post = $request->input();
+        $insurance_id = $post['insurance_id'];
+        Insurance::find($insurance_id)->delete();
+        InsuranceProjectedBenefit::where('insurance_id', $insurance_id)->delete();
+        InsuranceCoverage::where('insurance_id', $insurance_id)->delete();
+    }
+    public function updateInsuranceToExisting(Request $request)
+    {
+        $post = $request->input();
+        $insurance_id = $post['insurance_id'];
+        Insurance::find($insurance_id)->fill(['insurance_type' => 'existing'])->save();
     }
 }

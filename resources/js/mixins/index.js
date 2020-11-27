@@ -112,6 +112,30 @@ Vue.mixin({
       var d = new Date();
       var n = d.getTime();
       return n;
-    }
+    },
+    getYearDiff(from, to) {
+      console.log(from)
+      console.log(to)
+      var years = moment(to).diff(from, 'years');
+      return years;
+    },
+    setAnchor(v) {
+      window.location.hash = "#" + v
+    },
+    moneyFormat(num) {
+      if (isNaN(num) == false) {
+        return '$ ' + Number(Math.ceil(num)).toLocaleString();
+      } else {
+        return '-'
+      }
+    },
+    castNum(num) {
+      if (isNaN(num) == false && num != null) {
+        return num;
+      } else {
+        return 0
+      }
+    },
+
   }
 })

@@ -16,9 +16,7 @@ export default {
         title: {
             type: String,
         },
-        divCol: {
-            type: Number,
-        },
+        divCol: {},
         labelCol: {
             default: 3,
         },

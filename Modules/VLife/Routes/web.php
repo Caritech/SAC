@@ -12,7 +12,9 @@
 */
 
 Route::prefix('vlife')->group(function () {
-    Route::get('/', 'VLifeController@index');
+    $vue_root = 'VLifeController@myContact';
+
+    Route::get('/', $vue_root);
 
     Route::get('/my_contact', 'VLifeController@myContact');
     Route::get('/my_contact/{id}/edit/{tab}', 'VLifeController@myContact');
@@ -46,10 +48,24 @@ Route::prefix('vlife')->group(function () {
     Route::post('/my_contact/asset_investment/inactive', 'VLifeController@inactiveAssetInvestment');
     Route::post('/my_contact/asset_investment/update_incl', 'VLifeController@updateAssetInvestmentStatus');
 
+
     // Needs Calculation
     Route::post('/my_contact/need_calculation/medical/save', 'VLifeController@saveNCMedical');
+
+    // Insurnace (Exissting & Recommendartion)
+    Route::get('/my_contact/insurance/{id}/create', $vue_root);
+    Route::get('/my_contact/insurance/{id}/edit', $vue_root);
+    Route::get('/get_contact_insurance/{id}', 'VLifeController@getInsurance');
+    Route::get('/get_contact_insurance_detail/{id}', 'VLifeController@getInsuranceDetail');
+    Route::post('/my_contact/insurance/save', 'VLifeController@saveInsurance');
+    Route::post('/my_contact/insurance/update_incl', 'VLifeController@updateIncludeCalculationStatus');
+    Route::post('/my_contact/insurance/delete', 'VLifeController@deleteInsurance');
+    Route::post('/my_contact/insurance/update_to_existing', 'VLifeController@updateInsuranceToExisting');
+
+
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');
     Route::get('/get_country_option', 'VLifeController@getCountryOption');
     Route::get('/get_state_option', 'VLifeController@getStateOption');
+    Route::get('/get_insurance_dropdown', 'VLifeController@get_insurance_dropdown');
 });

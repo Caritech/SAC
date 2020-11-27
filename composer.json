@@ -48,11 +48,9 @@
             "database/seeds",
             "database/factories"
         ],
-        "files":[
+        "files": [
             "app/Helpers/Helper.php",
             "app/Helpers/MyHelper.php",
-            "app/Helpers/Html_Component.php",
-            "app/Helpers/PermissionHelper.php",
             "app/Helpers/Lists.php"
         ]
     },

@@ -9,6 +9,19 @@ class Contacts extends Model
     protected $table = "vlife_contacts";
     protected $guarded = ['id'];
 
+    protected $appends = ['age'];
+
+    public function getAgeAttribute()
+    {
+        $age = null;
+
+        if ($this->dob != null) {
+            $age = (new \Carbon\Carbon($this->dob))->age;
+        }
+        return $age;
+    }
+
+
 
     public function address()
     {

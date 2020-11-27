@@ -1,50 +1,50 @@
 <template>
-  <datepicker
-    :class="datepickerClass"
-    :config="datepickerConfig()"
-    :value="value"
-    @input="$emit('input',$event)"
-  ></datepicker>
+    <datepicker
+        :class="datepickerClass"
+        :config="datepickerConfig()"
+        :value="value"
+        @input="$emit('input',$event)"
+    ></datepicker>
 </template>
 <script>
-import datePicker from "vue-bootstrap-datetimepicker";
-import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
+import datePicker from "vue-bootstrap-datetimepicker"
+import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css"
 
 export default {
-  name: "date-picker",
-  components: {
-    datepicker: datePicker,
-  },
-  methods: {
-    datepickerConfig() {
-      return {
-        useCurrent: this.useCurrent,
-        format: "YYYY-MM-DD",
-      };
+    name: "date-picker",
+    components: {
+        datepicker: datePicker,
     },
-  },
-  props: {
-    size: {
-      type: String,
-      default: "sm",
+    methods: {
+        datepickerConfig() {
+            return {
+                useCurrent: this.useCurrent,
+                format: "YYYY-MM-DD",
+            }
+        },
     },
-    value: {
-      type: String,
-      default: "",
+    props: {
+        size: {
+            type: String,
+            default: "sm",
+        },
+        value: {
+            type: String,
+            default: "",
+        },
+        useCurrent: {
+            type: Boolean,
+            default: false,
+        },
     },
-    useCurrent: {
-      type: Boolean,
-      default: false,
+    computed: {
+        datepickerClass() {
+            if (this.size == "sm") {
+                return "form-control-sm"
+            } else {
+                return ""
+            }
+        },
     },
-  },
-  computed: {
-    datepickerClass() {
-      if (this.size == "sm") {
-        return "form-control-sm";
-      } else {
-        return "";
-      }
-    },
-  },
-};
+}
 </script>
