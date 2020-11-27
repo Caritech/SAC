@@ -503,19 +503,10 @@ export default {
             vlife_setting: {},
             contact_nc_data: {},
             medical: {
-<<<<<<< HEAD
-                personal_medical: [
-                    {
-                        description: "",
-                        total_amount: "",
-                    },
-                ],
-=======
                 personal_medical: [{
                     description: "",
                     total_amount: "",
                 } ]
->>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
             },
             critical_illness: {
                 income_replacement: [
@@ -805,10 +796,6 @@ export default {
                                 "/edit/needs_calculator/medical"
                         )
                     }
-<<<<<<< HEAD
-                })
-        },
-=======
                 });
 
         },
@@ -825,18 +812,12 @@ export default {
         saveNC(){
 
         }
->>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
     },
     created() {
         var vm = this
         vm.id = vm.$route.params.id
         axios.get("/get_vlife_setting").then((response) => {
             vm.vlife_setting = response.data
-<<<<<<< HEAD
-        })
-    },
-}
-=======
         });
         // console.log(vm.medical.personal_medical);
         axios.get('/vlife/get_nc_data/'+vm.id).then(response => {
@@ -846,5 +827,4 @@ export default {
 
     }
 };
->>>>>>> cf67fa7a7da2af6bf309cee5ab0392986f93402b
 </script>
