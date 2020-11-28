@@ -6,6 +6,11 @@ import moment from 'moment'
 */
 
 Vue.mixin({
+  data() {
+    return {
+      pageState: null,
+    }
+  },
   methods: {
     showLoading() {
       this.$store.commit('showLoading');
@@ -105,13 +110,13 @@ Vue.mixin({
       return str
     },
     kebabCaseToString(str) {
-      let new_str =[];
+      let new_str = [];
       let str_arr = str.split('_')
-      str_arr.forEach(function(v,k){
+      str_arr.forEach(function (v, k) {
         let str = v[0].toUpperCase() + v.slice(1);
         new_str.push(str)
       })
-      
+
       return new_str.join(' ')
     },
     contactPhotoUrl(v) {
@@ -131,7 +136,14 @@ Vue.mixin({
     },
     setAnchor(v) {
       window.location.hash = "#" + v
+
+      //update view state only for need, reduce resource usage
+      if (v == 'overview') {
+        this.$store.commit('updateViewState')
+      }
+
     },
+
     moneyFormat(num) {
       if (isNaN(num) == false) {
         return '$ ' + Number(Math.ceil(num)).toLocaleString();

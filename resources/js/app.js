@@ -110,10 +110,12 @@ import MyMultipleInput from './components/InputComponent/MultipleInput';
 Vue.component('my-multiple-input', MyMultipleInput)
 
 import mixin from './mixins/index'
+import store from './stores/index'
 
 const app = new Vue({
     el: '#app',
     router,
+    store,
     data: function () {
         return {
             sidebarToggle: false,

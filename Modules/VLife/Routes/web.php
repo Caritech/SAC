@@ -69,6 +69,7 @@ Route::prefix('vlife')->group(function () {
     Route::get('/my_contact/summary/get_assets_investment_by_type', 'SummaryController@get_assets_investment_by_type');
     Route::get('/my_contact/summary/get_insurance_policy_summary', 'SummaryController@get_insurance_policy_summary');
     Route::get('/my_contact/summary/get_insurance_policy_premium', 'SummaryController@get_insurance_policy_premium');
+    Route::get('/my_contact/summary/get_assurance_needs', 'SummaryController@get_assurance_needs');
 
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');

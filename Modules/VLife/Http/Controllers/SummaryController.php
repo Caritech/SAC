@@ -261,4 +261,168 @@ class SummaryController extends Controller
 
         return $result;
     }
+
+    public function get_assurance_needs(Request $request)
+    {
+        $contact_id = $request->input('contact_id');
+
+        //medical need
+        $medical_need = DB::Table('vlife_medical');
+        $medical_need->selectRaw('
+            "vlife_medical" AS model_table,
+            id AS model_id,
+            "medical" AS category,
+            "need" AS need_have,
+            type AS type,
+            description AS description,
+            total_amount AS amount
+        ');
+        $medical_need->where('contact_id', $contact_id);
+        $medical_need = $medical_need->get()->toArray();
+        //medical have
+        $medical_have = DB::Table('vlife_insurance');
+        $medical_have->selectRaw('
+            "vlife_insurance" AS model_table,
+            id AS model_id,
+            "medical" AS category,
+            "have" AS need_have,
+            "insurance" AS type,
+            policy_no AS description,
+            medical_benefit_annual_limit AS amount
+        ');
+        $medical_have->where('contact_id', $contact_id);
+        $medical_have->where('incl', 1);
+        $medical_have = $medical_have->get()->toArray();
+
+        //ci need
+        $ci_need = DB::Table('vlife_critical_illness');
+        $ci_need->where('contact_id', $contact_id);
+        $ci_need = $ci_need->get();
+        //ci have
+        $ci_have = DB::Table('vlife_insurance AS vi');
+        $ci_have->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'vi.id');
+        $ci_have->where('coverage_type', 'Critical Illesses');
+        $ci_have->where('contact_id', $contact_id);
+        $ci_have->where('incl', 1);
+        $ci_have = $ci_have->get();
+
+        //death need
+        $death_need = DB::Table('vlife_death_tpd_2');
+        $death_need->where('contact_id', $contact_id);
+        $death_need = $death_need->get();
+        //death have
+        $death_have = DB::Table('vlife_insurance AS vi');
+        $death_have->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'vi.id');
+        $death_have->where('coverage_type', 'Death');
+        $death_have->where('contact_id', $contact_id);
+        $death_have->where('incl', 1);
+        $death_have = $death_have->get();
+
+        $data = array_merge($medical_need, $medical_have);
+        return $data;
+        foreach ($medical_have as $d) {
+        }
+
+        //init data structure, for ease in understanding
+        $data = [
+            'medical' => [
+                'title' => 'MEDICAL',
+                'total_need' => 0,
+                'total_have' => 0,
+                'need' => [
+                    'personal_medical' => [
+                        'title' => 'Personal Medical',
+                        'total' => 0,
+                        'items' => []
+                    ]
+                ],
+                'have' => [
+                    'insurance' => [
+                        'title' => 'Insurance',
+                        'total' => 0,
+                        'items' => []
+                    ]
+                ]
+            ],
+            'ci' => [
+                'title' => 'CRITICAL ILLNESS',
+                'total_need' => 0,
+                'total_have' => 0,
+                'need' => [],
+                'have' => []
+            ],
+            'death' => [
+                'title' => 'DEATH / TPD',
+                'total_need' => 0,
+                'total_have' => 0,
+                'need' => [],
+                'have' => []
+            ]
+        ];
+
+        //start medical
+        foreach ($medical_need as $d) {
+            $item = [
+                'description' => $d->description,
+                'amount' => $d->total_amount,
+                'percentage' => 100
+            ];
+            $data['medical']['total_need'] += $d->total_amount;
+            $data['medical']['need']['personal_medical']['items'][] = $item;
+        }
+        foreach ($medical_have as $d) {
+            $item = [
+                'description' => $d->policy_no,
+                'amount' => $d->medical_benefit_lifetime_limit,
+                'percentage' => 100
+
+            ];
+            $data['medical']['total_have'] += $d->medical_benefit_lifetime_limit;
+            $data['medical']['have']['insurance']['items'][] = $item;
+        }
+        //end medical
+        /*
+        //start ci
+        foreach ($ci_need as $d) {
+            $item = [
+                'description' => $d->description,
+                'total_amount' => $d->total_amount
+            ];
+            $data['ci']['total_need'] += $d->total_amount;
+            $data['ci']['need'][] = $item;
+        }
+        foreach ($ci_have as $d) {
+            $item = [
+                'description' => $d->policy_no,
+                'total_amount' => $d->sum_assured
+            ];
+            $data['ci']['total_have'] += $d->sum_assured;
+            $data['ci']['have'][] = $item;
+        }
+        //end ci
+
+        //start death
+        foreach ($death_need as $d) {
+            $item = [
+                'description' => $d->description,
+                'total_amount' => $d->total_amount
+            ];
+            $data['death']['total_need'] += $d->total_amount;
+            $data['death']['need'][] = $item;
+        }
+        foreach ($death_have as $d) {
+            $item = [
+                'description' => $d->policy_no,
+                'total_amount' => $d->sum_assured
+            ];
+            $data['death']['total_have'] += $d->sum_assured;
+            $data['death']['have'][] = $item;
+        }
+        //end death
+        */
+
+
+
+        return $data;
+    }
 }

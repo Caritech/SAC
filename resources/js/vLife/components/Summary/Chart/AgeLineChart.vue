@@ -1,10 +1,13 @@
 <template>
     <div style="width:100%">
+        <span style="display:none">{{chartKey}}</span>
         <LineChart
             :chart-data="dataCollection"
             :style="{position: 'relative',width:'100%'}"
             :options="chartOptions"
+            :ref="'myLifeChart'"
         ></LineChart>
+
     </div>
 </template>
 
@@ -12,7 +15,8 @@
 import LineChart from "../../Chart/LineChart"
 
 export default {
-    props: ["setting"],
+    //chartKey use to for chart re-render
+    props: ["setting", "chartKey"],
     components: {
         LineChart,
     },
@@ -94,6 +98,25 @@ export default {
                 datasets: datasets,
             }
         },
+    },
+
+    methods: {
+        rerender() {
+            this.$refs.myLifeChart.renderChart(
+                this.dataCollection,
+                this.chartOptions
+            )
+            console.log("line chart re-render")
+        },
+    },
+    updated() {
+        let vm = this
+        //need to wait for component width set
+        this.$nextTick(function () {
+            setTimeout(function () {
+                vm.rerender()
+            }, 1000)
+        })
     },
 }
 </script>

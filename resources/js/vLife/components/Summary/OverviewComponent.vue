@@ -94,7 +94,10 @@
                 </h2>
                 <div class="row">
                     <div class="col">
-                        <AgeLineChart :setting="insuranceLineChartSetting"></AgeLineChart>
+                        <AgeLineChart
+                            :setting="insuranceLineChartSetting"
+                            :chartKey="chartKey"
+                        ></AgeLineChart>
                     </div>
 
                 </div>
@@ -110,7 +113,10 @@
                 </h2>
                 <div class="row">
                     <div class="col">
-                        <AgeLineChart :setting="premiumLineChartSetting"></AgeLineChart>
+                        <AgeLineChart
+                            :setting="premiumLineChartSetting"
+                            :chartKey="chartKey"
+                        ></AgeLineChart>
                     </div>
 
                 </div>
@@ -129,6 +135,7 @@ export default {
     data() {
         return {
             contact_id: null,
+            chart_key: null,
             income_data: [],
             assets_investment_data: [],
             insurance_policy_summary_data: [],
@@ -136,6 +143,9 @@ export default {
         }
     },
     computed: {
+        chartKey() {
+            return this.$store.state.view_state
+        },
         //INCOME
         incomePieChartData() {
             let label = []

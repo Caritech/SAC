@@ -10,113 +10,57 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'profile'"
-                            data-toggle="pill"
-                            href=""
-                            @click="navigationLink('profile')"
-                        >Profile</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'profile'}"
                             data-toggle="pill"
-                            href=""
                             @click="navigationLink('profile')"
                         >Profile</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'cashflow'"
-                            data-toggle="pill"
-                            href=""
-                            @click="navigationLink('cashflow')"
-                        >Cashflow</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'cashflow'}"
                             data-toggle="pill"
-                            href=""
                             @click="navigationLink('cashflow')"
                         >Cashflow</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'needs_calculator'"
-                            data-toggle="pill"
-                            @click="navigationLink('needs_calculator')"
-                            href="#needs_calculator"
-                        >Needs Calculator</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'needs_calculator'}"
                             data-toggle="pill"
                             @click="navigationLink('needs_calculator')"
-                            href="#needs_calculator"
                         >Needs Calculator</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'asset_investment'"
-                            data-toggle="pill"
-                            @click="navigationLink('asset_investment')"
-                            href="#asset_investment"
-                        >Asset & Investment</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'asset_investment'}"
                             data-toggle="pill"
                             @click="navigationLink('asset_investment')"
-                            href="#asset_investment"
                         >Asset & Investment</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'insurance'"
-                            data-toggle="pill"
-                            @click="navigationLink('insurance')"
-                            href="#insurance"
-                        >Insurance</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'insurance'}"
                             data-toggle="pill"
                             @click="navigationLink('insurance')"
-                            href="#insurance"
                         >Insurance</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'summary'"
-                            data-toggle="pill"
-                            @click="navigationLink('summary')"
-                            href="#summary"
-                        >Summary</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'summary'}"
                             data-toggle="pill"
                             @click="navigationLink('summary')"
-                            href="#summary"
                         >Summary</a>
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
-                            v-if="this.$route.params.tab == 'reports'"
-                            data-toggle="pill"
-                            @click="navigationLink('reports')"
-                            href="#reports"
-                        >Reports</a>
-                        <a
                             class="nav-link"
-                            v-else
+                            :class="{active:tab_index == 'reports'}"
                             data-toggle="pill"
-                            href="#reports"
                             @click="navigationLink('reports')"
                         >Reports</a>
                     </li>
@@ -126,7 +70,7 @@
                 <div class="tab-content">
                     <div
                         class="tab-pane container"
-                        :class="{'active':this.$route.params.tab == 'profile'}"
+                        :class="{'active':tab_index == 'profile'}"
                         id="profile"
                     >
                         <contact-profile></contact-profile>
@@ -134,7 +78,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{'active':this.$route.params.tab == 'cashflow'}"
+                        :class="{'active':tab_index == 'cashflow'}"
                         id="cashflow"
                     >
                         <contact-cashflow></contact-cashflow>
@@ -142,7 +86,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{'active':this.$route.params.tab == 'needs_calculator'}"
+                        :class="{'active':tab_index == 'needs_calculator'}"
                         id="needs_calculator"
                     >
                         <contact-needs-calculator></contact-needs-calculator>
@@ -150,7 +94,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{'active':this.$route.params.tab == 'asset_investment'}"
+                        :class="{'active':tab_index == 'asset_investment'}"
                         id="asset_investment"
                     >
                         <contact-asset-investment></contact-asset-investment>
@@ -158,7 +102,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{ 'active':this.$route.params.tab == 'insurance'}"
+                        :class="{ 'active':tab_index == 'insurance'}"
                         id="insurance"
                     >
                         <MyContactFormInsurancePage></MyContactFormInsurancePage>
@@ -166,7 +110,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{ 'active':this.$route.params.tab == 'summary'}"
+                        :class="{ 'active':tab_index == 'summary'}"
                         id="summary"
                     >
                         <MyContactFormSummaryPage></MyContactFormSummaryPage>
@@ -174,7 +118,7 @@
 
                     <div
                         class="tab-pane container"
-                        :class="{ 'active':this.$route.params.tab == 'reports'}"
+                        :class="{ 'active':tab_index == 'reports'}"
                         id="reports"
                     ></div>
                 </div>
@@ -203,6 +147,7 @@ export default {
     },
     data() {
         return {
+            tab_index: null,
             id: "",
             asset_investment_api: "",
             login_user: {},
@@ -408,13 +353,14 @@ export default {
     },
     methods: {
         navigationLink(tab) {
-            this.$router.push({
+            this.$router.replace({
                 path: "/my_contact/" + this.$route.params.id + "/edit/" + tab,
             })
+            this.tab_index = tab
         },
     },
     created() {
-        console.log(this.$route.params)
+        this.tab_index = this.$route.params.tab
     },
 }
 </script>

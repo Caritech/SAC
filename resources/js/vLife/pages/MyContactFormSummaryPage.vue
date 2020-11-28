@@ -67,8 +67,8 @@ export default {
         let available_hash = [
             "#overview",
             "#insurance",
-            "assurance_needs",
-            "remarks",
+            "#assurance_needs",
+            "#remarks",
         ]
         if (available_hash.includes(window_hash)) {
             this.anchor = window.location.hash.replace("#", "")
@@ -76,6 +76,7 @@ export default {
 
         if (!available_hash.includes(window_hash)) {
             this.anchor = "overview"
+            this.$store.commit("updateViewState")
         }
     },
 }
