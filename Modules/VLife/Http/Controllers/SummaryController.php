@@ -266,6 +266,13 @@ class SummaryController extends Controller
     {
         $contact_id = $request->input('contact_id');
 
+        $insurance_description = "
+            IF(insurance_type='insurance',
+                CONCAT(IFNULL(policy_no,''),' ',IFNULL(plan_name,'')),
+                CONCAT(IFNULL(insurer,''),' ',IFNULL(plan_name,''))
+            )
+        ";
+
         //medical need--------------------------------
         $medical_need = DB::Table('vlife_medical');
         $medical_need->selectRaw('
@@ -280,18 +287,21 @@ class SummaryController extends Controller
         $medical_need->where('contact_id', $contact_id);
         $medical_need = $medical_need->get()->toArray();
         //medical have--------------------------------
-        $medical_have = DB::Table('vlife_insurance');
+        $medical_have = DB::Table('vlife_insurance AS vi');
         $medical_have->selectRaw('
             "vlife_insurance" AS model_table,
             id AS model_id,
             "medical" AS category,
             "have" AS need_have,
             "insurance" AS type,
-            policy_no AS description,
+            insurance_type,
+            vi.id AS insurance_id,
+            ' . $insurance_description . ' AS description,
+            incl,
             medical_benefit_annual_limit AS amount
         ');
         $medical_have->where('contact_id', $contact_id);
-        $medical_have->where('incl', 1);
+        //$medical_have->where('incl', 1);
         $medical_have = $medical_have->get()->toArray();
 
         //ci need--------------------------------
@@ -315,13 +325,16 @@ class SummaryController extends Controller
             "ci" AS category,
             "have" AS need_have,
             "insurance" AS type,
-            policy_no AS description,
+            insurance_type,
+            vi.id AS insurance_id,
+            ' . $insurance_description . ' AS description,
+            incl,
             sum_assured AS amount
         ');
         $ci_have->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'vi.id');
         $ci_have->where('coverage_type', 'Critical Illesses');
         $ci_have->where('contact_id', $contact_id);
-        $ci_have->where('incl', 1);
+        //$ci_have->where('incl', 1);
         $ci_have = $ci_have->get()->toArray();
 
         //death need--------------------------------
@@ -345,14 +358,31 @@ class SummaryController extends Controller
             "death" AS category,
             "have" AS need_have,
             "insurance" AS type,
-            policy_no AS description,
+            insurance_type,
+            vi.id AS insurance_id,
+            ' . $insurance_description . ' AS description,
+            incl,
             sum_assured AS amount
         ');
         $death_have->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'vi.id');
         $death_have->where('coverage_type', 'Death');
         $death_have->where('contact_id', $contact_id);
-        $death_have->where('incl', 1);
         $death_have = $death_have->get()->toArray();
+        //death have--------------------------------    Part 2
+        $death_have2 = DB::Table('vlife_asset_investment AS vi');
+        $death_have2->selectRaw('
+            "vlife_asset_investment" AS model_table,
+            id AS model_id,
+            "death" AS category,
+            "have" AS need_have,
+            type AS type,
+            description,
+            incl,
+            current_value AS amount
+        ');
+        $death_have2->where('contact_id', $contact_id);
+        //$death_have2->where('incl', 1);
+        $death_have2 = $death_have2->get()->toArray();
 
         //merge all array
         $data = array_merge(
@@ -361,7 +391,8 @@ class SummaryController extends Controller
             $ci_need,
             $ci_have,
             $death_need,
-            $death_have
+            $death_have,
+            $death_have2
         );
 
         return $data;

@@ -108,6 +108,8 @@ import MyFormGroup from './components/InputComponent/FormGroup';
 Vue.component('my-form-group', MyFormGroup)
 import MyMultipleInput from './components/InputComponent/MultipleInput';
 Vue.component('my-multiple-input', MyMultipleInput)
+import MyRangeInput from './components/InputComponent/RangeInput';
+Vue.component('my-range-input', MyRangeInput)
 
 import mixin from './mixins/index'
 import store from './stores/index'

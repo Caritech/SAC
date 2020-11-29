@@ -1,8 +1,12 @@
 <template>
     <div class="">
         <h1 class="title-cyan">Assurance Needs</h1>
+
         <div class="row mb-5">
-            <div class="col-8">
+            <div
+                class="col-8"
+                style="height:70vh;overflow-y:auto"
+            >
                 <div
                     class="card mb-4"
                     v-for="(asn,asn_key) in computedAssurance.items"
@@ -51,6 +55,7 @@
                                                         >
                                                             <i class="fa fa-chevron-down"></i>
                                                         </b-btn>
+
                                                     </div>
                                                     <div class="col-8 text-left">{{ele.title}}</div>
                                                     <div class="col-3 text-right">{{moneyFormat(ele.total)}}</div>
@@ -80,13 +85,11 @@
                                                         >
                                                             <div class="col-9 text-left">
                                                                 {{item.description}}
-                                                                <b-form-input
-                                                                    id="range-1"
+                                                                <my-range-input
                                                                     v-model="item.percentage"
-                                                                    type="range"
                                                                     min="0"
-                                                                    max="100"
-                                                                ></b-form-input>
+                                                                    max="200"
+                                                                ></my-range-input>
                                                             </div>
                                                             <div class="col-3 text-right">{{moneyFormat(item.amount * item.percentage / 100)}}</div>
 
@@ -146,7 +149,10 @@
                 </div>
 
             </div>
-            <div class="col-4">
+            <div
+                class="col-4"
+                style="height:70vh;overflow-y:auto"
+            >
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -165,7 +171,7 @@
                                     size="lg"
                                     value="1"
                                     v-model="rec.incl"
-                                    @change="inclRecommendation($event,rec)"
+                                    @change="onInclRecommendationChange($event,rec)"
                                 />
                             </td>
                             <td>
@@ -241,6 +247,9 @@ export default {
                     vm.$set(v, "incl", 1)
                 }
 
+                //no space allow for item type, because will use in key
+                let item_type = v.type.replace(" ", "_")
+
                 /* init object key*/
                 //1st level (Medical, Critcal Illness, Death)
                 if (result[v.category] == null) {
@@ -258,18 +267,21 @@ export default {
                     }
                 }
                 //3st level (Item Group)
-                if (result[v.category][v.need_have]["items"][v.type] == null) {
-                    result[v.category][v.need_have]["items"][v.type] = {
+                if (
+                    result[v.category][v.need_have]["items"][item_type] == null
+                ) {
+                    result[v.category][v.need_have]["items"][item_type] = {
                         title: vm.getName(v.type),
                         total: 0,
                     }
                 }
                 //4st level (Items)
                 if (
-                    result[v.category][v.need_have]["items"][v.type]["items"] ==
-                    null
+                    result[v.category][v.need_have]["items"][item_type][
+                        "items"
+                    ] == null
                 ) {
-                    result[v.category][v.need_have]["items"][v.type][
+                    result[v.category][v.need_have]["items"][item_type][
                         "items"
                     ] = []
                 }
@@ -278,13 +290,13 @@ export default {
                 /* Start data maniputation for reporting*/
                 result[v.category]["total"] += vm.calAmount(v)
                 result[v.category][v.need_have]["total"] += vm.calAmount(v)
-                result[v.category][v.need_have]["items"][v.type][
+                result[v.category][v.need_have]["items"][item_type][
                     "total"
                 ] += vm.calAmount(v)
 
-                result[v.category][v.need_have]["items"][v.type]["items"].push(
-                    v
-                )
+                result[v.category][v.need_have]["items"][item_type][
+                    "items"
+                ].push(v)
                 output[v.need_have] += vm.calAmount(v)
             })
             output.items = result
@@ -333,6 +345,13 @@ export default {
         getAssuranceText(asn) {
             return this.calAssuranceTotal(asn) >= 0 ? "Surplus" : "Shortfall"
         },
+        onInclRecommendationChange(event, rec) {
+            this.assurance_needs2.forEach(function (v, k) {
+                if (v.insurance_id != null && v.insurance_id == rec.id) {
+                    v.incl = event
+                }
+            })
+        },
         getRecommendation() {
             axios
                 .get("/vlife/my_contact/summary/get_recommendation", {
@@ -375,5 +394,14 @@ export default {
 
 .asn-item-box.not_include {
     opacity: 0.5;
+}
+
+div.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 50px;
+    background-color: yellow;
+    padding: 50px;
+    font-size: 20px;
 }
 </style>
