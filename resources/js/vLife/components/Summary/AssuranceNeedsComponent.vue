@@ -103,15 +103,15 @@
                         </div>
                     </b-collapse>
                     <div class="card-footer">
-                        <div class="row">
+                        <div class="row h6">
                             <div class="col-8">Total Need</div>
                             <div class="col-4 text-right">{{ moneyFormat(asn['need']['total'])}}</div>
                         </div>
-                        <div class="row">
+                        <div class="row h6">
                             <div class="col-8">Total Have</div>
                             <div class="col-4 text-right">{{moneyFormat(asn['have']['total'])}}</div>
                         </div>
-                        <div class="row">
+                        <div class="row font-weight-bold h5">
                             <div class="col-8">
                                 Total
                                 <span>{{getAssuranceText(asn)}}</span>
@@ -297,8 +297,20 @@ export default {
                 return "PERSONAL MEDICAL"
             } else if (name == "medical") {
                 return "MEDICAL"
-            } else if ((name = "insurance")) {
+            } else if (name == "ci") {
+                return "CRITICAL ILLNESS"
+            } else if (name == "insurance") {
                 return "INSURANCE"
+            } else if (name == "income_replacement") {
+                return "Income Replacement"
+            } else if (name == "others") {
+                return "Others"
+            } else if (name == "death") {
+                return "Death / TPD"
+            } else if (name == "final_expenses") {
+                return "Final Expenses"
+            } else if (name == "parents_allowance") {
+                return "Parent Allowance"
             }
             return name
         },

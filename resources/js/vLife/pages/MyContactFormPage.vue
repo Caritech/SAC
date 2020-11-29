@@ -357,6 +357,9 @@ export default {
                 path: "/my_contact/" + this.$route.params.id + "/edit/" + tab,
             })
             this.tab_index = tab
+            if (tab == "summary") {
+                this.$store.commit("updateViewState")
+            }
         },
     },
     created() {
