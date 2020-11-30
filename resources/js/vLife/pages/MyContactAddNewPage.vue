@@ -58,7 +58,10 @@
             </div>
 
             <div class="card-footer">
-                <button class="btn btn-success" @click="save">
+                <button
+                    class="btn btn-success"
+                    @click="save"
+                >
                     Add Contact
                 </button>
             </div>
@@ -89,7 +92,9 @@ export default {
                         )
                     } else {
                         Vue.swal("Success", "Record has been saved", "success")
-                        this.$router.replace("/my_contact/" + data + "/edit")
+                        this.$router.replace(
+                            "/my_contact/" + data + "/edit/profile"
+                        )
                     }
                 })
         },

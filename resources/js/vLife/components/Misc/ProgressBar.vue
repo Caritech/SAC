@@ -17,7 +17,7 @@
                 style="display:inline-block"
                 :style="'width:'+getWidth(d)+'%;background:'+getColor(d)+';text-align:'+getTextAlign(d)+';padding:'+getPadding(d)"
             >
-                <h4>{{getWidth(d)}} %</h4>
+                <h4>{{ showBarTitle(getWidth(d)) }} %</h4>
             </div>
         </div>
     </div>
@@ -34,20 +34,38 @@ export default {
             })
             return total
         },
+        noData() {
+            if (isNaN(this.total) || this.total == 0) {
+                return true
+            } else {
+                return false
+            }
+        },
     },
     methods: {
+        showBarTitle(v) {
+            if (this.noData) {
+                return "-"
+            } else {
+                return v
+            }
+        },
         getWidth(d) {
-            let w = (d.value / this.total) * 100
-            return Math.floor(w * 10) / 10
+            if (this.noData) {
+                return 50
+            } else {
+                let w = (d.value / this.total) * 100
+                return Math.floor(w * 10) / 10
+            }
         },
         getColor(d) {
             if (this.data.length == 2) {
                 let index = this.data.indexOf(d)
 
                 if (index == 0) {
-                    return "#F50057"
+                    return "#FF968A"
                 } else {
-                    return "#448AFF"
+                    return "#A9DEF9"
                 }
             }
         },

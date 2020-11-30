@@ -66,19 +66,19 @@ class SummaryController extends Controller
 
         $arr = [
             'Gross Income' => [
-                'color' => '#2962FF',
+                'color' => '#A9DEF9',
                 'amount' => 0,
             ],
             'Bonus' => [
-                'color' => '#FF4081',
+                'color' => '#F694C1',
                 'amount' => 0,
             ],
             'Dividend' => [
-                'color' => '#64DD17',
+                'color' => '#D3F8E2',
                 'amount' => 0,
             ],
             'Rental' => [
-                'color' => '#FDD835',
+                'color' => '#EDE7B1',
                 'amount' => 0,
             ],
         ];
@@ -107,27 +107,27 @@ class SummaryController extends Controller
 
         $arr = [
             'Property' => [
-                'color' => '#FF4081',
+                'color' => '#F694C1',
                 'amount' => 0,
             ],
             'EPF' => [
-                'color' => '#F57F17',
+                'color' => '#FFC8A2',
                 'amount' => 0,
             ],
             'Unit Trust' => [
-                'color' => '#FFD54F',
+                'color' => '#EDE7B1',
                 'amount' => 0,
             ],
             'Saving' => [
-                'color' => '#00E676',
+                'color' => '#D3F8E2',
                 'amount' => 0,
             ],
             'Insurance' => [
-                'color' => '#2979FF',
+                'color' => '#A9DEF9',
                 'amount' => 0,
             ],
             'Private Equity' => [
-                'color' => '#D500F9',
+                'color' => '#E4C1F9',
                 'amount' => 0,
             ],
         ];
@@ -155,22 +155,22 @@ class SummaryController extends Controller
         //with age
         $result = [
             'Accidental' => [
-                'color' => '#5D4037',
+                'color' => '#FED7C3',
                 'title' => 'Accidental',
                 'items' => [],
             ],
             'Medical' => [
-                'color' => '#2979FF',
+                'color' => '#ABDEE6',
                 'title' => 'Medical',
                 'items' => [],
             ],
             'Death' => [
-                'color' => '#FF4081',
+                'color' => '#FF968A',
                 'title' => 'Death',
                 'items' => [],
             ],
             'TPD' => [
-                'color' => '#006064',
+                'color' => '#ECD5E3',
                 'title' => 'TPD',
                 'items' => [],
             ],
@@ -231,7 +231,7 @@ class SummaryController extends Controller
         //with age
         $result = [
             'Premium' => [
-                'color' => '#FF4081',
+                'color' => '#FF968A',
                 'title' => 'Premium',
                 'items' => [],
             ],

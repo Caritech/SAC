@@ -17,6 +17,9 @@ Route::prefix('vlife')->group(function () {
     Route::get('/', $vue_root);
 
     Route::get('/my_contact', 'VLifeController@myContact');
+    Route::get('/my_contact/{id}/edit', function ($id) {
+        return redirect('vlife/my_contact/' . $id . '/edit/profile');
+    });
     Route::get('/my_contact/{id}/edit/{tab}', 'VLifeController@myContact');
     Route::get('/my_contact/{id}/edit/{tab}/{sub_tab}', 'VLifeController@myContact');
     Route::get('/get_contact_list', 'VLifeController@getContactList');
