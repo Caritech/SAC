@@ -503,10 +503,12 @@ export default {
             vlife_setting: {},
             contact_nc_data: {},
             medical: {
-                personal_medical: [{
-                    description: "",
-                    total_amount: "",
-                } ]
+                personal_medical: [
+                    {
+                        description: "",
+                        total_amount: "",
+                    },
+                ],
             },
             critical_illness: {
                 income_replacement: [
@@ -773,8 +775,6 @@ export default {
         },
         saveNC() {},
         saveNCMedical() {
-            /*alert(this.medical);
-            console.log(this.medical.personal_medical);*/
             axios
                 .post("/vlife/my_contact/need_calculation/medical/save", {
                     personal_medicals: this.medical.personal_medical,
@@ -796,35 +796,72 @@ export default {
                                 "/edit/needs_calculator/medical"
                         )
                     }
-                });
-
+                })
         },
-        calculateCI_income_replacement(rate,month,pmt){
-            let result = 0;
-            if(rate == 0){
-                result = (pmt * month);
-            }else{
-                let pow_rate = Math.pow( 1 + rate,  month);
-                result = (pmt * (( pow_rate - 1 ) / rate) / pow_rate);
+
+        calculateCI_income_replacement(rate, year, return_percent, inflation) {
+            let result = 0
+
+            //let pow_rate = Math.pow( 1 + rate,  month);
+            result =
+                ((1 + inflation) / (1 + return_percent) - 1 / 12, year * 12)
+
+            return Math.round(result)
+        },
+
+        calculatePV(rate, month, pmt) {
+            let result = 0
+            if (rate == 0) {
+                result = pmt * month
+            } else {
+                let pow_rate = Math.pow(1 + rate, month)
+                result = (pmt * ((pow_rate - 1) / rate)) / pow_rate
             }
-            return Math.round(result);
+            return Math.round(result)
         },
-        saveNC(){
-
-        }
+        pv(rate, nper, pmt, fv) {
+            rate = parseFloat(rate)
+            nper = parseFloat(nper)
+            pmt = parseFloat(pmt)
+            if (nper == 0) {
+                alert("Why do you want to test me with zeros?")
+                return 0
+            }
+            if (rate == 0) {
+                // Interest rate is 0
+                pv_value = -(fv + pmt * nper)
+            } else {
+                x = Math.pow(1 + rate, -nper)
+                y = Math.pow(1 + rate, nper)
+                pv_value = -(x * (fv * rate - pmt + y * pmt)) / rate
+            }
+            pv_value = conv_number(pv_value, 2)
+            return pv_value
+        },
+        calculateFV(rate, period, pv) {
+            let result = 0
+            if (rate == 0) {
+                result = pv
+            } else {
+                let pow_rate = Math.pow(1 + rate, period)
+                result = pv * pow_rate
+            }
+            return Math.round(result)
+        },
+        saveNC() {},
     },
     created() {
         var vm = this
         vm.id = vm.$route.params.id
         axios.get("/get_vlife_setting").then((response) => {
             vm.vlife_setting = response.data
-        });
+        })
         // console.log(vm.medical.personal_medical);
-        axios.get('/vlife/get_nc_data/'+vm.id).then(response => {
-            vm.medical.personal_medical = response.data.medical.personal_medicals;
-            console.log(vm.medical.personal_medical);
-        });
-
-    }
-};
+        axios.get("/vlife/get_nc_data/" + vm.id).then((response) => {
+            vm.medical.personal_medical =
+                response.data.medical.personal_medicals
+            console.log(vm.medical.personal_medical)
+        })
+    },
+}
 </script>
