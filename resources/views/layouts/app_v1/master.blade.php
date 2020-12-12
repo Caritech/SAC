@@ -1,15 +1,11 @@
-<?php
-$core = new App\Http\Controllers\Core\MenuController();
-?>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @if(View::hasSection('title'))
-        <title>@yield('title') - SAC</title>
+    <title>@yield('title') - SAC</title>
     @else
-        <title>SAC</title>
+    <title>SAC</title>
     @endif
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

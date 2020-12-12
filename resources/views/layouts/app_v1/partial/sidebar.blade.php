@@ -26,7 +26,11 @@
 
 
     <?php
-    foreach ($core->menu as $k => $m) {
+
+    $menuClass = new App\Classes\Menu();
+    $menu = $menuClass->menu;
+
+    foreach ($menu as $k => $m) {
         $menu_name = preg_replace('/\s+/', '', $m['text']);
         if (
             (isset($sidebar_config[$m['text']]) && $sidebar_config[$m['text']] == false) ||

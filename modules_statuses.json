@@ -1,15 +1,3 @@
 {
-    "Scheduler": false,
-    "ContactInformation": false,
-    "Core": false,
-    "BudgetPlan": false,
-    "Setting": false,
-    "Example": false,
-    "Centre": false,
-    "DataAdapter": false,
-    "VLife": true,
-    "Service": false,
-    "DataEntry": false,
-    "Accounting": false,
-    "Admin": false
+    "Core": false
 }
