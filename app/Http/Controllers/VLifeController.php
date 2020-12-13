@@ -472,37 +472,6 @@ class VLifeController extends Controller
         return \Response::json($state_lists);
         //fddgit
     }
-    public function getNCData($id)
-    {
-        $nc_data = [];
-        $nc_data['medical']['personal_medicals'] = DB::table('vlife_medical')->where('contact_id', $id)->where('type', 'personal_medical')->get();
-
-        return \Response::json($nc_data);
-    }
-    public function saveNCMedical(Request $request)
-    {
-        $data = $request->input();
-        unset($data['_token']);
-
-        $personal_medicals = $data['personal_medicals'];
-        $contact_id = $data['contact_id'];
-        foreach ($personal_medicals as $key => $personal_medical) {
-            if (isset($personal_medical['id'])) {
-                $id = $personal_medical['id'];
-                unset($personal_medical['id']);
-                unset($personal_medical['contact_id']);
-                $personal_medical = add_update_dt_user($personal_medical);
-                DB::table('vlife_medical')->where('id', $id)->update($personal_medical);
-            } else {
-                $personal_medical['type'] = 'personal_medical';
-                $personal_medical['contact_id'] = $contact_id;
-                $personal_medical = add_create_dt_user($personal_medical);
-                DB::table('vlife_medical')->insert($personal_medical);
-            }
-        }
-
-        return \Response::json($contact_id);
-    }
 
 
     /* *****

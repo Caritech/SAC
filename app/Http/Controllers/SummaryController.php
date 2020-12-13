@@ -338,9 +338,9 @@ class SummaryController extends Controller
         $ci_have = $ci_have->get()->toArray();
 
         //death need--------------------------------
-        $death_need = DB::Table('vlife_death_tpd_2');
+        $death_need = DB::Table('vlife_death_tpd');
         $death_need->selectRaw('
-            "vlife_death_tpd_2" AS model_table,
+            "vlife_death_tpd" AS model_table,
             id AS model_id,
             "death" AS category,
             "need" AS need_have,

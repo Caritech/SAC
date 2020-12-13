@@ -1,0 +1,195 @@
+<template>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-10">
+                    <span class="title-cyan">MEDICAL</span> - To pay for unforeseen medical bill(s).
+                </div>
+
+                <div class="col-md-2">
+                    <div class="btn btn-block btn-outline-primary disabled text-right btn-label">{{moneyFormat(TotalMedical)}}</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h5><strong>How much do you think is sufficient?</strong></h5>
+
+            <!-- Follow Industry Standard -->
+            <b-card v-if="NCPreference!=null">
+                <my-checkbox
+                    v-model="NCPreference.nc_medical_follow"
+                    @input="setBenchmarkAmount"
+                >
+                    Follow the recommended industry minimum benchmark ( {{ moneyFormat(VLifeSetting.nc_medical) }} )
+                </my-checkbox>
+            </b-card>
+
+            <hr>
+
+            <div v-if="NCFollowBenchmark==0">
+                <h5>I want</h5>
+                <b-card
+                    v-for="(type_data,medical_type) in MedicalBreakdown"
+                    no-body
+                    class="mb-4"
+                >
+
+                    <!-- Start Header -->
+                    <div class="card-header">
+                        <h5 class="title-cyan">
+                            <b-btn
+                                size="sm"
+                                variant="outline-primary"
+                                class="float-left"
+                                v-b-toggle="'collapse-medical'+medical_type"
+                            >
+                                <i class="fa fa-chevron-down"></i>
+                            </b-btn>
+                            <span class="ml-2">{{getName(medical_type)}}</span>
+                            <b-btn
+                                size="sm"
+                                variant="primary"
+                                class="float-right"
+                                @click="addField('medical',medical_type)"
+                            >
+                                <i class="fas fa-plus"></i> Add
+                            </b-btn>
+                        </h5>
+                    </div>
+                    <!-- End Header -->
+                    <!-- Start Body loop-->
+                    <b-collapse
+                        visible
+                        :id="'collapse-medical'+medical_type"
+                    >
+                        <table class="table table-bordered table-sm">
+                            <tbody>
+                                <template v-for="medical in type_data">
+                                    <NCIncputField
+                                        v-if="medical.deleted != 1"
+                                        :props-form="medical"
+                                        @delete-field="deleteField"
+                                    ></NCIncputField>
+                                </template>
+                            </tbody>
+                        </table>
+
+                    </b-collapse>
+                    <!-- End Body loop-->
+
+                </b-card>
+
+            </div>
+            <div class=" text-right">
+                <button
+                    class="btn btn-success"
+                    @click="saveNC"
+                >
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+import MixinNeedsCalculator from "../../../../Mixins/MyContact/needs_calculator"
+import NCIncputField from "../NeedsCalculator/NCInputField"
+
+export default {
+    mixins: [MixinNeedsCalculator],
+    components: { NCIncputField },
+    computed: {
+        /* Start Renaming  */
+        state() {
+            return this.$store.state.needs_calculator
+        },
+        NCData() {
+            return this.state.nc_data
+        },
+        NCPreference() {
+            if (this.NCData == null) return {}
+            return this.NCData.preference
+        },
+        VLifeSetting() {
+            if (this.state.vlife_setting == null) return {}
+            return this.state.vlife_setting
+        },
+        NCMedicalData() {
+            let data = this.NCData.medical
+            return data
+        },
+        NCFollowBenchmark() {
+            if (this.NCPreference == null) return 0
+            return this.NCPreference.nc_medical_follow
+        },
+        /* End of Renaming  */
+
+        TotalMedical() {
+            let total = 0
+            if (this.NCMedicalData == null) return "Pending Data"
+
+            if (this.NCFollowBenchmark == 0) {
+                this.NCMedicalData.forEach(function (v, k) {
+                    let is_deleted = v.deleted ?? 0
+                    if (!is_deleted) {
+                        total += parseFloat(v.total_amount)
+                    }
+                })
+            } else {
+                total = this.NCPreference.nc_medical
+            }
+
+            return total
+        },
+        MedicalBreakdown() {
+            let breakdown = {
+                personal_medical: [],
+            }
+            if (this.NCMedicalData == null) return breakdown
+            this.NCMedicalData.forEach(function (v, k) {
+                let type = v.type
+                if (breakdown[type] == null) {
+                    breakdown[type] = []
+                }
+
+                breakdown[type].push(v)
+            })
+            return breakdown
+        },
+    },
+    methods: {
+        addField(nc_type, nc_sub_type) {
+            let params = {
+                nc_type: nc_type,
+                nc_sub_type: nc_sub_type,
+            }
+            this.$store.dispatch("needs_calculator/addNCDataField", params)
+        },
+        deleteField(data) {
+            let params = {
+                nc_type: "medical",
+                data: data,
+            }
+            this.$store.commit("needs_calculator/setNCDataFieldDeleted", params)
+        },
+        saveNC() {
+            this.$store.dispatch("needs_calculator/saveNC")
+        },
+        setBenchmarkAmount() {
+            let params = {
+                nc_type: "nc_medical",
+            }
+            this.$store.commit("needs_calculator/setNCFollowBenchmark", params)
+        },
+    },
+    created() {
+        this.id = this.$route.params.id
+    },
+}
+</script>

@@ -97,18 +97,6 @@
  */
 
 /**
-    * Verte v0.0.12
-    * (c) 2019 Baianat
-    * @license MIT
-    */
-
-/**
-  * color-fns v0.0.10
-  * (c) 2019 Baianat
-  * @license MIT
-  */
-
-/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>

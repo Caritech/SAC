@@ -7,7 +7,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
-use App\Models\HistoryLog;
 
 class LoginController extends Controller
 {
@@ -52,10 +51,10 @@ class LoginController extends Controller
         $coordinate = $request->coordinate;
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            $this->LogLocationToHistory($coordinate);
+
             return redirect()->intended($this->redirectPath());
         } elseif (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
-            $this->LogLocationToHistory($coordinate);
+
             return redirect()->intended($this->redirectPath());
         } else {
             return redirect()->back()
@@ -66,15 +65,5 @@ class LoginController extends Controller
         }
     } //End of overided login function
 
-    public function LogLocationToHistory($coordinate)
-    {
-        $change_txt = "coordinate:$coordinate\nIpAddress:" . getRealIpAddr();
-        $arr = [
-            'task' => 'Insert',
-            'application' => 'User Login - Log Location',
-            'summary' => 'Coordinate: ' . $coordinate,
-            'change_txt' => $change_txt,
-        ];
-        HistoryLog::insertHistory($arr);
-    }
+
 }

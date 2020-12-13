@@ -2,7 +2,7 @@
     <cool-select
         :size="size"
         single-line
-        :items="computedItems"
+        :items="items"
         :itemText="itemText"
         :itemValue="itemValue"
         :value="computedValue"
@@ -14,7 +14,8 @@
 <script>
 import { CoolSelect } from "vue-cool-select"
 import { CoolSelectPlugin } from "vue-cool-select"
-
+import Vue from "vue"
+Vue.use(CoolSelectPlugin)
 export default {
     name: "my-select",
     components: {
@@ -51,6 +52,7 @@ export default {
         computedItems() {
             var string_key_items = []
             var items = this.items
+
             var item_value = this.itemValue
 
             for (let i in items) {

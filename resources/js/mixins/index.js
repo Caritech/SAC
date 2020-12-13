@@ -159,5 +159,68 @@ Vue.mixin({
       }
     },
 
+    calculatePV(rate, nper, pmt) {
+      console.log("Rate: " + rate)
+      console.log("NPER: " + nper)
+      console.log("pmt: " + pmt)
+      if (rate == 0) {
+        return pmt * nper
+      } else {
+        return (pmt / rate) * (1 - Math.pow(1 + rate, -nper));
+      }
+
+    },
+
+    calculateFV(rate, period, pv) {
+      let result = 0
+      if (rate == 0) {
+        result = pv
+      } else {
+        let pow_rate = Math.pow(1 + rate, period)
+        result = pv * pow_rate
+      }
+      return Math.round(result)
+    },
+    collapseClick(event) {
+      if ($(event.target).hasClass("fa-chevron-down")) {
+        $(event.target)
+          .addClass("fa-chevron-up")
+          .removeClass("fa-chevron-down")
+      } else {
+        $(event.target)
+          .addClass("fa-chevron-down")
+          .removeClass("fa-chevron-up")
+      }
+    },
+    capitalizeFirstLetter(str) {
+      var str = str.replace(/_/g, " ")
+      var parts = str.split(" "),
+        len = parts.length,
+        i,
+        words = []
+      for (i = 0; i < len; i++) {
+        var part = parts[i]
+        var first = part[0].toUpperCase()
+        var rest = part.substring(1, part.length)
+        var word = first + rest
+        words.push(word)
+      }
+      words = words.join(" ")
+      if (words == "Business Personal Guarantor Loan") {
+        return "Business Personal / Guarantor Loan"
+      }
+      return words
+    },
+    countObjElement(tdata) {
+      var counter = 0
+      $.each(tdata, function (index, value) {
+        $.each(value, function (index, v) {
+          counter++
+        })
+        return false
+      })
+      return counter - 1
+    },
+
   }
 })

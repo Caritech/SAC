@@ -32,7 +32,7 @@ Route::get('get_vlife_setting', function () {
 
 Auth::routes(['register' => false]);
 
-Route::view('/dashboard', 'Core.dashboard');
+Route::view('/dashboard', 'dashboard');
 
 
 
@@ -78,8 +78,8 @@ Route::prefix('vlife')->group(function () {
 
 
     // Needs Calculation
-    Route::post('/my_contact/need_calculation/medical/save', 'VLifeController@saveNCMedical');
-    Route::get('/get_nc_data/{id}', 'VLifeController@getNCData');
+    Route::post('/my_contact/need_calculation/save_nc', 'NeedsCalculatorController@save_nc');
+    Route::get('/get_nc_data/{id}', 'NeedsCalculatorController@get_nc_data');
 
     // Insurnace (Exissting & Recommendartion)
     Route::get('/my_contact/insurance/{id}/create', $vue_root);
@@ -104,4 +104,8 @@ Route::prefix('vlife')->group(function () {
     Route::get('/get_country_option', 'VLifeController@getCountryOption');
     Route::get('/get_state_option', 'VLifeController@getStateOption');
     Route::get('/get_insurance_dropdown', 'VLifeController@get_insurance_dropdown');
+
+
+    /*  Maintenance*/
+    Route::resource('/nc_type_maintenance', 'Maintenance\NCTypeController');
 });
