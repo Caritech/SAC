@@ -104,8 +104,4 @@ Route::prefix('vlife')->group(function () {
     Route::get('/get_country_option', 'VLifeController@getCountryOption');
     Route::get('/get_state_option', 'VLifeController@getStateOption');
     Route::get('/get_insurance_dropdown', 'VLifeController@get_insurance_dropdown');
-
-
-    /*  Maintenance*/
-    Route::resource('/nc_type_maintenance', 'Maintenance\NCTypeController');
 });
