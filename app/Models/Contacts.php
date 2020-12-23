@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contacts extends Model
 {
+    //test
     protected $table = "vlife_contacts";
     protected $guarded = ['id'];
 
