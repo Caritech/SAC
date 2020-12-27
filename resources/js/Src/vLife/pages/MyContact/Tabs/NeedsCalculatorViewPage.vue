@@ -76,10 +76,10 @@
 </template>
 
 <script>
-import Medical from "../components/NeedsCalculator/Medical"
-import CI from "../components/NeedsCalculator/CI"
-import DeathTpd from "../components/NeedsCalculator/DeathTpd"
-import StoreNeedsCalculator from "../../../Stores/MyContact/needs_calculator"
+import Medical from "../../../components/NeedsCalculator/Medical"
+import CI from "../../../components/NeedsCalculator/CI"
+import DeathTpd from "../../../components/NeedsCalculator/DeathTpd"
+import StoreNeedsCalculator from "../../../../../Stores/MyContact/needs_calculator"
 
 export default {
     components: {

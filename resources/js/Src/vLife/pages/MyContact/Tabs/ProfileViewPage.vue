@@ -1080,9 +1080,7 @@ export default {
         },*/
     },
     created() {
-        //var vm = this;
         this.id = this.$route.params.id
-        //this.init();
         axios
             .get("/vlife/get_contact_profile_data/" + this.id)
             .then((response) => {

@@ -393,7 +393,7 @@
 </template>
 
 <script>
-import mixinInsurance from "../../../Mixins/MyContact/insurance"
+import mixinInsurance from "../../../../Mixins/MyContact/insurance"
 export default {
     mixins: [mixinInsurance],
     data() {

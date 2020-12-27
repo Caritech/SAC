@@ -99,6 +99,9 @@ Route::prefix('vlife')->group(function () {
     Route::get('/my_contact/summary/get_insurance_policy_premium', 'SummaryController@get_insurance_policy_premium');
     Route::get('/my_contact/summary/get_assurance_needs', 'SummaryController@get_assurance_needs');
 
+    //Report
+    Route::get('/my_contact/{id}/print_summary_report', 'ReportController@print_summary_report');
+
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');
     Route::get('/get_country_option', 'VLifeController@getCountryOption');

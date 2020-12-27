@@ -8,15 +8,16 @@
 import MainNavComponent from "./components/MainLayoutComponent"
 import VueRouter from "vue-router"
 import HomePage from "./pages/HomePage"
-import MyContactPage from "./pages/MyContactPage"
-import MyContactFormPage from "./pages/MyContactFormPage"
-import MyContactProfilePage from "./pages/MyContactProfilePage"
-import MyContactCashFlowIncomePage from "./pages/MyContactCashFlowIncomePage"
-import MyContactFormCashflowPage from "./pages/MyContactFormCashflowPage"
-import MyContactAssetInvestmentPage from "./pages/MyContactAssetInvestmentPage"
-import MyContactAddNewPage from "./pages/MyContactAddNewPage"
-//insurance page
-import MyContactInsurancePage from "./pages/MyContactInsurancePage"
+import MyContactListsPage from "./pages/MyContactListsPage"
+
+import MyContactIndexPage from "./pages/MyContact/IndexPage"
+//FORM PAGE
+import AddContactFormPage from "./pages/MyContact/Forms/AddContactFormPage"
+import EditContactFormPage from "./pages/MyContact/Forms/EditContactFormPage"
+import CashFlowIncomeFormPage from "./pages/MyContact/Forms/CashFlowIncomeFormPage"
+import AssetInvestmentFormPage from "./pages/MyContact/Forms/AssetInvestmentFormPage"
+import InsuranceFormPage from "./pages/MyContact/Forms/InsuranceFormPage"
+
 /*
     Nested Route
 */
@@ -27,52 +28,49 @@ const routes = [
     },
     {
         path: "/my_contact",
-        component: MyContactPage,
+        component: MyContactListsPage,
     },
-    {
-        path: "/my_contact/cashflow",
-        component: MyContactFormCashflowPage,
-    },
+
     {
         path: "/my_contact/:id/edit/:tab",
-        component: MyContactFormPage,
+        component: MyContactIndexPage,
     },
     {
         path: "/my_contact/:id/edit/:tab/:sub_tab",
-        component: MyContactFormPage,
+        component: MyContactIndexPage,
     },
     {
         path: "/my_contact/profile/create",
-        component: MyContactAddNewPage,
+        component: AddContactFormPage,
     },
     {
         path: "/my_contact/profile/:contact_id/edit",
-        component: MyContactProfilePage,
+        component: EditContactFormPage,
     },
     {
         path: "/my_contact/cashflow/income/:id/edit",
-        component: MyContactCashFlowIncomePage,
+        component: CashFlowIncomeFormPage,
     },
     {
         path: "/my_contact/cashflow/income/:contact_id/create",
-        component: MyContactCashFlowIncomePage,
+        component: CashFlowIncomeFormPage,
     },
     {
         path: "/my_contact/asset_investment/:contact_id/create",
-        component: MyContactAssetInvestmentPage,
+        component: AssetInvestmentFormPage,
     },
     {
         path: "/my_contact/asset_investment/:id/edit",
-        component: MyContactAssetInvestmentPage,
+        component: AssetInvestmentFormPage,
     },
     //insurance (existing & Recommendation)
     {
         path: "/my_contact/insurance/:contact_id/create", //id is contact id
-        component: MyContactInsurancePage,
+        component: InsuranceFormPage,
     },
     {
         path: "/my_contact/insurance/:insurance_id/edit", //id is insurance id
-        component: MyContactInsurancePage,
+        component: InsuranceFormPage,
     },
 
     // {

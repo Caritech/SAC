@@ -1,4 +1,8 @@
 <?php
+function displayMoney($v)
+{
+    return number_format($v, 2);
+}
 function db_json_encode($data)
 {
     foreach ($data as $k => $v) {
