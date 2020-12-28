@@ -134,7 +134,7 @@ import MyContactFormProfilePage from "./Tabs/ProfileViewPage"
 import MyContactFormCashflowPage from "./Tabs/CashflowViewPage"
 import MyContactFormNeedsCalculatorPage from "./Tabs/NeedsCalculatorViewPage"
 import MyContactFormAssetInvestmentPage from "./Tabs/AssetInvestmentViewPage"
-import MyContactFormInsurancePage from "./Tabs/AssetInvestmentViewPage"
+import MyContactFormInsurancePage from "./Tabs/InsuranceViewPage"
 import MyContactFormSummaryPage from "./Tabs/SummaryViewPage"
 import MyContactFormReportPage from "./Tabs/ReportViewPage"
 

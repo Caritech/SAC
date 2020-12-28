@@ -26,12 +26,13 @@ if($percentage > 0 && $percentage < 8 ){
 }else{
     $percentage_width = $percentage;
 }
+if($percentage_width > 100){
+    $percentage_width = 100;
+}
 ?>
 <div>
     <div class="grey lighten-1" style="height:20px;border:1px solid black">
         <div class="{{$default_color}}" style="height:20px;width:{{$percentage_width}}%"></div>
     </div>
-    @if(!$disabled)
-        <div class="h5 mt-2 {{$default_text_color}}">{{$percentage}} %</div>
-    @endif
+    <div class="h5 mt-2 {{$default_text_color}}">{{$percentage}} %</div>
 </div>

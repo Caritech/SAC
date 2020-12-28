@@ -97,7 +97,19 @@ class ReportController extends Controller
         ];
 
         $medical_insurance = DB::table('vlife_insurance')
+            ->selectRaw('
+                insurer,
+                policy_no,
+                medical_benefit_room_board_rate,
+                medical_benefit_annual_limit,
+                medical_benefit_lifetime_limit,
+                medical_benefit_co_insurance,
+                medical_benefit_maturity_age,
+                medical_benefit_remarks
+            ')
             ->where('incl', 1)
+            ->where('insurance_type', 'existing')
+            ->where('chk_medical_benefit', 1)
             ->where('contact_id', $id)
             ->get();
 
@@ -130,16 +142,20 @@ class ReportController extends Controller
         $data_have['death_tpd'] = $group_insurance->sum_death_tpd;
 
         $pdf = new \Mpdf\Mpdf();
-        $pdf->shrink_tables_to_fit = 1;
+        //$pdf->shrink_tables_to_fit = 1;
 
         //return view('reports/my_contact/life_assurance_needs_summary_report');
-        $html = view('reports/my_contact/life_assurance_needs_summary_report', ['want' => $data_want, 'have' => $data_have])->render();
+        $html = view('reports/my_contact/life_assurance_needs_summary_report', [
+            'want' => $data_want,
+            'have' => $data_have,
+            //'medical_insurance' => $medical_insurance
+        ])->render();
 
-        // $pdf->SetHTMLHeader('
-        //     <div style="float: left; width: 80%;font-size:15px">Name: ' . $client_name . '</div>
-        //     <div style="font-size:15px">Date: ' . displayDate($data_info->date) . '</div>
-        // ');
-        //$pdf->SetHTMLFooter('<div color="blue" style="float: left; width: 85%">{DATE l, F d, Y} </div> <div>Page {PAGENO} of {nb}</div>');
+        $contact = DB::table('vlife_contacts')->where('id', $id)->first();
+        $pdf->SetHTMLHeader('
+            <div style="float: left; width: 80%;font-size:15px">Name: ' . $contact->name . '</div>
+        ');
+        $pdf->SetHTMLFooter('<div color="blue" style="float: left; width: 85%">{DATE l, F d, Y} </div> <div>Page {PAGENO} of {nb}</div>');
         //$stylesheet = file_get_contents(public_path('css/material_color.css'));
         //$pdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
         //$html = 'asdsad';
