@@ -34,6 +34,7 @@
                     no-body
                     class="mb-4"
                     v-for="(type_data,ci_type) in CIBreakdown"
+                    :key="ci_type"
                 >
 
                     <!-- Start Header -->

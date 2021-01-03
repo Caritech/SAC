@@ -34,6 +34,7 @@
                     v-for="(type_data,medical_type) in MedicalBreakdown"
                     no-body
                     class="mb-4"
+                    :key="medical_type"
                 >
 
                     <!-- Start Header -->
@@ -66,8 +67,9 @@
                     >
                         <table class="table table-bordered table-sm">
                             <tbody>
-                                <template v-for="medical in type_data">
+                                <template v-for="(medical,medical_index) in type_data">
                                     <NCIncputField
+                                        :key="medical_index"
                                         v-if="medical.deleted != 1"
                                         :props-form="medical"
                                         @delete-field="deleteField"

@@ -107,4 +107,6 @@ Route::prefix('vlife')->group(function () {
     Route::get('/get_country_option', 'VLifeController@getCountryOption');
     Route::get('/get_state_option', 'VLifeController@getStateOption');
     Route::get('/get_insurance_dropdown', 'VLifeController@get_insurance_dropdown');
+    //FOR SETTING USE
+    Route::get('/get_setting_needs_calculator_items', 'SettingController@get_setting_needs_calculator_items');
 });

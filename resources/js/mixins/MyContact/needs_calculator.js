@@ -51,6 +51,8 @@ export default ({
             }
             return name
         },
+        getNeedsCalculatorItems() { },
+
         removeRow(type, field, index) {
             this[type][field].splice(index, 1)
         },

@@ -34,6 +34,7 @@
                     no-body
                     class="mb-4"
                     v-for="(type_data,death_tpd_type) in DeathTpdBreakdown"
+                    :key="death_tpd_type"
                 >
                     <!-- Start Header -->
                     <div class="card-header">
