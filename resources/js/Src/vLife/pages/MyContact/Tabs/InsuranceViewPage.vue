@@ -393,7 +393,7 @@
 </template>
 
 <script>
-import mixinInsurance from "../../../Mixins/MyContact/insurance"
+import mixinInsurance from "../../../../../Mixins/MyContact/insurance"
 export default {
     mixins: [mixinInsurance],
     data() {
@@ -643,9 +643,6 @@ export default {
     created() {
         this.id = this.$route.params.id
         this.contact_id = this.id
-        axios.get("/get_vlife_setting").then((response) => {
-            this.vlife_setting = response.data
-        })
 
         let window_hash = window.location.hash
         let available_hash = ["#existing", "#recommendation"]

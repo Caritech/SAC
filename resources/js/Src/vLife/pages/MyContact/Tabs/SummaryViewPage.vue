@@ -42,10 +42,10 @@
 </template>
 
 <script>
-import AssuranceNeedsComponent from "../components/Summary/AssuranceNeedsComponent"
-import InsuranceComponent from "../components/Summary/InsuranceComponent"
-import OverviewComponent from "../components/Summary/OverviewComponent"
-import RemarkComponent from "../components/Summary/RemarkComponent"
+import AssuranceNeedsComponent from "../../../components/Summary/AssuranceNeedsComponent"
+import InsuranceComponent from "../../../components/Summary/InsuranceComponent"
+import OverviewComponent from "../../../components/Summary/OverviewComponent"
+import RemarkComponent from "../../../components/Summary/RemarkComponent"
 export default {
     components: {
         OverviewComponent,

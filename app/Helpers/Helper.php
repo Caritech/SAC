@@ -1,4 +1,22 @@
 <?php
+
+/*
+    Get Icon For Needs Type
+*/
+function get_icon_path_by_type($type)
+{
+    if ($type == 'final_expenses') {
+        return asset('images/pdf/final_expenses.png');
+    } else {
+        return asset('images/pdf/placeholder.png');
+    }
+}
+
+
+function displayMoney($v)
+{
+    return number_format($v, 2);
+}
 function db_json_encode($data)
 {
     foreach ($data as $k => $v) {

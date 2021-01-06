@@ -1,10 +1,10 @@
 <template>
     <div>
-        <!-- <b-breadcrumb>
-      <b-breadcrumb-item href="/vlife">Home</b-breadcrumb-item>
-      <b-breadcrumb-item href="/vlife/my_contact">My Contact</b-breadcrumb-item>
-      <b-breadcrumb-item active>Edit</b-breadcrumb-item>
-    </b-breadcrumb> -->
+        <b-breadcrumb>
+            <b-breadcrumb-item href="/vlife">Home</b-breadcrumb-item>
+            <b-breadcrumb-item href="/vlife/my_contact">My Contact</b-breadcrumb-item>
+            <b-breadcrumb-item active>Edit</b-breadcrumb-item>
+        </b-breadcrumb>
         <div class="row mt-3">
             <div class="col-md-12">
                 <ul class="nav nav-pills">
@@ -120,7 +120,9 @@
                         class="tab-pane container"
                         :class="{ 'active':tab_index == 'reports'}"
                         id="reports"
-                    ></div>
+                    >
+                        <MyContactFormReportPage></MyContactFormReportPage>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,12 +130,13 @@
 </template>
 
 <script>
-import MyContactFormProfilePage from "./MyContactFormProfilePage"
-import MyContactFormCashflowPage from "./MyContactFormCashflowPage"
-import MyContactFormNeedsCalculatorPage from "./MyContactFormNeedsCalculatorPage"
-import MyContactFormAssetInvestmentPage from "./MyContactFormAssetInvestmentPage"
-import MyContactFormInsurancePage from "./MyContactFormInsurancePage"
-import MyContactFormSummaryPage from "./MyContactFormSummaryPage"
+import MyContactFormProfilePage from "./Tabs/ProfileViewPage"
+import MyContactFormCashflowPage from "./Tabs/CashflowViewPage"
+import MyContactFormNeedsCalculatorPage from "./Tabs/NeedsCalculatorViewPage"
+import MyContactFormAssetInvestmentPage from "./Tabs/AssetInvestmentViewPage"
+import MyContactFormInsurancePage from "./Tabs/InsuranceViewPage"
+import MyContactFormSummaryPage from "./Tabs/SummaryViewPage"
+import MyContactFormReportPage from "./Tabs/ReportViewPage"
 
 export default {
     props: ["tab"],
@@ -144,6 +147,7 @@ export default {
         "contact-asset-investment": MyContactFormAssetInvestmentPage,
         MyContactFormInsurancePage,
         MyContactFormSummaryPage,
+        MyContactFormReportPage,
     },
     data() {
         return {
