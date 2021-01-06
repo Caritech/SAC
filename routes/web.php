@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,60 @@ Route::get('/', function () {
     }
 });
 
+//To view images from storage
+Route::get('view_image/{filepath}/{filename}', function ($filepath, $filename) {
+    $path = storage_path('app/' . $filepath . '/' . $filename);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+});
+
+Route::get('view_image/{filepath}/{id}/{filename}', function ($filepath, $id, $filename) {
+    $path = storage_path('app/' . $filepath . '/' . $id . '/' . $filename);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+});
+
+Route::get('view_image/{file_path?}', function ($file_path) {
+    $path = storage_path('app/' . $file_path);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+})->where('file_path', '(.*)');
+Route::get('view_file/{file_path?}', function ($file_path) {
+    $path = storage_path('app/' . $file_path);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    if (is_array(getimagesize($path))) {
+        $image = true;
+        return Image::make($path)->response();
+    }
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+})->where('file_path', '(.*)');
+
 Route::get('get_user_info', function () {
     return \Auth::user();
 });
@@ -32,9 +87,15 @@ Route::get('get_vlife_setting', function () {
 
 Auth::routes(['register' => false]);
 
-Route::view('/dashboard', 'dashboard');
+Route::get('/dashboard', 'HomeController@dashboard');
 
-
+Route::get('/admin/user_management', 'UserController@index');
+Route::get('/admin/user_management/create', 'UserController@create');
+Route::post('/admin/user_management/store', 'UserController@store');
+Route::get('/admin/user_management/{id}/edit', 'UserController@edit');
+Route::put('/admin/user_management/{id}/update', 'UserController@update');
+Route::get('/my_profile', 'ProfileController@index');
+Route::put('/my_profile/{id}', 'ProfileController@update');
 
 Route::prefix('vlife')->group(function () {
     $vue_root = 'VLifeController@myContact';

@@ -9,7 +9,7 @@
 ?>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" :class="{ 'toggled': sidebarToggle }" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
         <div class="sidebar-brand-icon">
             SAC
         </div>
@@ -29,6 +29,7 @@
 
     $menuClass = new App\Classes\Menu();
     $menu = $menuClass->menu;
+    $user_role = \Auth::user()->role;
 
     foreach ($menu as $k => $m) {
         $menu_name = preg_replace('/\s+/', '', $m['text']);
@@ -54,7 +55,7 @@
             }
         }
     ?>
-        @if( isset($m['submenu']))
+        @if(isset($m['submenu']) && (($m['access'] == 'user') || ($m['access'] == 'admin' && $user_role == 2) ))
         <li class="nav-item {{$active_class}}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menuCollapse{{$k}}">
                 <i class="{{$m['icon']}}"></i>
@@ -70,7 +71,7 @@
                 </div>
             </div>
         </li>
-        @else
+        @elseif(($m['access'] == 'user') || ($m['access'] == 'admin' && $user_role == 2) )
         <!-- Nav Item - Dashboard -->
         <li class="nav-item {{$active_class}}">
             <a class="nav-link" href="{{$m['url']}}">

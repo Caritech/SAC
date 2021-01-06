@@ -16,11 +16,11 @@
 
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item nav-item-fix-width active">
+                    <!--<li class="nav-item nav-item-fix-width active">
                         <router-link class="nav-link nav-link-sm-padding btn btn-sm btn-light" to="/">
                             Home
                         </router-link>
-                    </li>
+                    </li>-->
                     <li class="nav-item nav-item-fix-width">
                         <router-link class="nav-link nav-link-sm-padding btn btn-sm btn-light" to="/my_contact">
                             My Contact

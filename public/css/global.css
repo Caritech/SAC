@@ -55,3 +55,42 @@
 .profile-floating-btn .material-icons {
     color: white;
 }
+
+.height-auto-field {
+    height: auto !important;
+}
+
+.alert p {
+    margin-bottom: 0px !important;
+}
+
+.required_label:after {
+    color: #e32;
+    content: ' *';
+}
+
+
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    padding: 3px;
+    border: 1px solid grey;
+    margin-bottom: 15px;
+}
+
+.dashbroad-profile-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 180px;
+    padding: 3px;
+    border: 1px solid grey;
+    margin-bottom: 15px;
+}
+
+
+.profile-image-container {
+    text-align: center;
+    margin: 0px auto;
+}

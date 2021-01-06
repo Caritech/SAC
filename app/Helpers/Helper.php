@@ -97,6 +97,26 @@ function generateSqlStr($sql, $binding = null)
     return $sql_str;
 }
 
+function saveImg($request, $fName, $field_name = 'banner', $multiple = false)
+{
+    if (!$multiple) {
+        $image = $request->file($field_name);
+    } else {
+        $image = $request;
+    }
+
+    $filename = rand(1111, 9999) . time() . '.' . $image->getClientOriginalExtension();
+    $filename = preg_replace('/\s+/', '_', $filename); //replace spacing with underscore
+    $file_path = $fName . '/' . $filename;
+
+    $img = Image::make($image);
+    $img->orientate();
+    $img->stream();
+    Storage::put($file_path, $img);
+
+    return $file_path;
+}
+
 function getRealIpAddr()
 {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) //check ip from share internet
@@ -403,6 +423,11 @@ function recurrence_lists()
     return $rec_lists;
 }
 
+function user_active_status_option()
+{
+    return ['1' => 'Active', '0' => 'InActive'];
+}
+
 function active_inactive_option()
 {
     return ['' => 'All', '1' => 'Active', '0' => 'InActive'];
@@ -432,6 +457,28 @@ function is_staff_lists()
 {
     return ['' => 'ALL', '0' => 'Non Staff', '1' => 'Staff Only'];
 }
+
+function get_user_role_lists()
+{
+    return ['1' => 'Agent', '2' => 'Admin'];
+}
+
+function get_user_role($id)
+{
+    if ($id == 1) {
+        return 'agent';
+    } else {
+        return 'admin';
+    }
+}
+function statusIcon($val)
+{
+    if ($val == 1) {
+        return '<i class="fas fa-check text-success"></i>';
+    }
+    return '<i class="fas fa-times text-danger"></i>';
+}
+
 
 function pd_role($id)
 {

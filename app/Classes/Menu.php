@@ -10,11 +10,13 @@ class Menu
         [
             'text' => 'Dashboard',
             'url' => '/dashboard',
+            'access' => 'user',
             'icon' => 'fas fa-2x  fa-tachometer-alt',
         ],
         [
             'text' => 'SAC',
             'icon' => 'fas fa-2x fa-heartbeat',
+            'access' => 'user',
             'submenu' => [
                 [
                     'text' => 'My Contact',
@@ -27,6 +29,7 @@ class Menu
         [
             'text' => 'Admin',
             'icon' => 'fa fa-2x fa-user-shield',
+            'access' => 'admin',
             'submenu' => [
                 [
                     'text' => 'Users',

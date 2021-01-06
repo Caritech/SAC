@@ -51,11 +51,22 @@ class LoginController extends Controller
         $coordinate = $request->coordinate;
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-
-            return redirect()->intended($this->redirectPath());
+            $user = Auth::user();
+            if ($user->status == 1) {
+                return redirect()->intended($this->redirectPath());
+            } else {
+                Auth::logout();
+                return redirect()->back()->withInput($request->only('username', 'remember'))->withErrors(['username' => 'This account is not activated.']);
+            }
         } elseif (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
 
-            return redirect()->intended($this->redirectPath());
+            $user = Auth::user();
+            if ($user->status == 1) {
+                return redirect()->intended($this->redirectPath());
+            } else {
+                Auth::logout();
+                return redirect()->back()->withInput($request->only('username', 'remember'))->withErrors(['username' => 'This account is not activated.']);
+            }
         } else {
             return redirect()->back()
                 ->withInput($request->only('username', 'remember'))

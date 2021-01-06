@@ -10,10 +10,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasRoles;
+    use Notifiable, HasRoles;
 
     protected $fillable = [
-        'pd_id','username','name', 'email', 'password',
+        'id', 'role', 'username', 'name', 'email', 'password', 'status', 'profile_image',
     ];
 
     protected $hidden = [
