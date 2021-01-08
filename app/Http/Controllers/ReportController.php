@@ -142,13 +142,12 @@ class ReportController extends Controller
         $data_have['death_tpd'] = $group_insurance->sum_death_tpd;
 
         $pdf = new \Mpdf\Mpdf();
-        //$pdf->shrink_tables_to_fit = 1;
 
         //return view('reports/my_contact/life_assurance_needs_summary_report');
         $html = view('reports/my_contact/life_assurance_needs_summary_report', [
             'want' => $data_want,
             'have' => $data_have,
-            //'medical_insurance' => $medical_insurance
+            'medical_insurance' => $medical_insurance
         ])->render();
 
         $contact = DB::table('vlife_contacts')->where('id', $id)->first();
