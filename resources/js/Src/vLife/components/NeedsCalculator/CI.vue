@@ -30,7 +30,6 @@
 
             <div>
                 <h5>I want</h5>
-                {{CIBreakdown}}
                 <b-card
                     no-body
                     class="mb-4"
