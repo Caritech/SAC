@@ -22,14 +22,15 @@
                     v-model="NCPreference.nc_critical_illness_follow"
                     @input="setBenchmarkAmount"
                 >
-                    Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(VLifeSetting.nc_critical_illness) }} )
+                    Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(IndustryRecommendation.critical_illness) }} )
                 </my-checkbox>
             </b-card>
 
             <hr>
 
-            <div v-if="NCFollowBenchmark==0">
+            <div>
                 <h5>I want</h5>
+                {{CIBreakdown}}
                 <b-card
                     no-body
                     class="mb-4"
@@ -117,9 +118,9 @@ export default {
             if (this.NCData == null) return {}
             return this.NCData.preference
         },
-        VLifeSetting() {
-            if (this.state.vlife_setting == null) return {}
-            return this.state.vlife_setting
+        IndustryRecommendation() {
+            if (this.state.industry_recommendation == null) return {}
+            return this.state.industry_recommendation
         },
         NCCIData() {
             let data = this.NCData.critical_illness
@@ -135,16 +136,12 @@ export default {
             let total = 0
             if (this.NCCIData == null) return "Pending Data"
 
-            if (this.NCFollowBenchmark == 0) {
-                this.NCCIData.forEach(function (v, k) {
-                    let is_deleted = v.deleted ?? 0
-                    if (!is_deleted) {
-                        total += parseFloat(v.total_amount)
-                    }
-                })
-            } else {
-                total = this.NCPreference.nc_critical_illness
-            }
+            this.NCCIData.forEach(function (v, k) {
+                let is_deleted = v.deleted ?? 0
+                if (!is_deleted) {
+                    total += parseFloat(v.total_amount)
+                }
+            })
 
             return total
         },
@@ -183,11 +180,16 @@ export default {
         saveNC() {
             this.$store.dispatch("needs_calculator/saveNC")
         },
-        setBenchmarkAmount() {
-            let params = {
-                nc_type: "nc_critical_illness",
+        setBenchmarkAmount(event) {
+            if (event == 1) {
+                let params = {
+                    nc_type: "critical_illness",
+                }
+                this.$store.dispatch(
+                    "needs_calculator/onChangeNCFollowBenchmark",
+                    params
+                )
             }
-            this.$store.commit("needs_calculator/setNCFollowBenchmark", params)
         },
     },
     created() {

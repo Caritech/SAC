@@ -85,6 +85,8 @@ Route::get('get_vlife_setting', function () {
     return \Response::json($setting);;
 });
 
+
+
 Auth::routes(['register' => false]);
 
 Route::get('/dashboard', 'HomeController@dashboard');
@@ -141,6 +143,8 @@ Route::prefix('vlife')->group(function () {
     // Needs Calculation
     Route::post('/my_contact/need_calculation/save_nc', 'NeedsCalculatorController@save_nc');
     Route::get('/get_nc_data/{id}', 'NeedsCalculatorController@get_nc_data');
+    Route::get('/my_contact/{id}/get_nc_industry_recommendation', 'NeedsCalculatorController@get_nc_industry_recommendation');
+    Route::get('/my_contact/get_nc_industry_recommendation_distribution', 'NeedsCalculatorController@get_nc_industry_recommendation_distribution');
 
     // Insurnace (Exissting & Recommendartion)
     Route::get('/my_contact/insurance/{id}/create', $vue_root);
@@ -162,6 +166,15 @@ Route::prefix('vlife')->group(function () {
 
     //Report
     Route::get('/my_contact/{id}/print_summary_report', 'ReportController@print_summary_report');
+
+    /*
+        Item Maintenance
+    */
+    Route::prefix('setting')->group(function () {
+        Route::resource('nc_type_category', 'Setting\NCTypeCategoryController');
+        Route::resource('nc_type_data', 'Setting\NCTypeDataController');
+    });
+
 
     //Common
     Route::get('/get_nationality_option', 'VLifeController@getNationalityOption');

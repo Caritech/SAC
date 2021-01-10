@@ -45,7 +45,6 @@ class NeedsCalculatorController extends Controller
         $post = $request->input();
         $contact_id = $post['contact_id'];
         $nc_data = $post['nc_data'];
-
         NCPreference::updateOrInsert(['contact_id' => $contact_id], $nc_data['preference']);
 
         $this->save_nc_by_type(NCMedical::class, $nc_data['medical'], $contact_id);
@@ -57,19 +56,65 @@ class NeedsCalculatorController extends Controller
     {
         foreach ($data as $d) {
             $id = $d['id'] ?? null;
+            $is_delete = $d['deleted'] ?? false;
 
             //create
-            if ($id == null) {
+            if ($id == null && !$is_delete) {
                 $d['contact_id'] = $contact_id;
                 $class::create($d);
             } else {
-                $is_delete = $d['deleted'] ?? false;
-                if ($is_delete) {
-                    $class::find($id)->delete();
-                } else {
-                    $class::find($id)->fill($d)->save();
+                if ($id != null) {
+                    if ($is_delete) {
+                        $class::find($id)->delete();
+                    } else {
+                        $class::find($id)->fill($d)->save();
+                    }
                 }
             }
         }
+    }
+
+    public function get_nc_industry_recommendation(Request $request, $contact_id)
+    {
+        $contact_id = $request->input('contact_id') ?? $contact_id;
+
+        $annual_income = get_contact_annual_income($contact_id);
+        $category = DB::Table('vlife_maintenance_nc_type_category')->get();
+
+        $industry_recommendation = [];
+        foreach ($category as $d) {
+            if ($d->use_annual_income == 1) {
+                $industry_recommendation[$d->category_code] = $annual_income * $d->multiply_annual_income;
+            } else {
+                $industry_recommendation[$d->category_code] = $d->amount_prefered;
+            }
+        }
+        return $industry_recommendation;
+    }
+
+    public function get_nc_industry_recommendation_distribution(Request $request)
+    {
+        $total_amount = $request->input('total');
+        $category = $request->input('category');
+
+        $items = DB::Table('vlife_maintenance_nc_type_data')->where('category', $category)->get();
+        $result = [];
+        foreach ($items as $i) {
+            $amount = 0;
+
+            if ($i->percentage_prefered > 0) {
+                $amount = $total_amount * $i->percentage_prefered / 100;
+            } else {
+                $amount = $i->amount_prefered;
+            }
+
+            $result[] = [
+                'category' => $i->category,
+                'type' => $i->type_code,
+                'description' => $i->type_name,
+                'total_amount' => $amount
+            ];
+        }
+        return $result;
     }
 }

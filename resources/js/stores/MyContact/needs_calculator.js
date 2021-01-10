@@ -6,7 +6,7 @@ export default ({
     state: {
         id: "",
         contact_id: null,
-        vlife_setting: {},
+        industry_recommendation: {},
         contact_nc_data: {},
         nc_data: {}
 
@@ -29,9 +29,15 @@ export default ({
             let data = params['data'];
 
             let nc_data_by_type = state.nc_data[nc_type];
-
             let index = nc_data_by_type.indexOf(data)
-            Vue.set(nc_data_by_type[index], 'deleted', 1)
+
+            if (data.id != null) {
+
+                Vue.set(nc_data_by_type[index], 'deleted', 1)
+            } else {
+                Vue.delete(nc_data_by_type, index)
+            }
+
         },
 
         setNCFollowBenchmark(state, params) {
@@ -46,6 +52,17 @@ export default ({
             }
         },
 
+        resetNCDataField(state, params) {
+            let type = params.nc_type;
+            let nc_data_type = state.nc_data[type]
+
+            for (let i in nc_data_type) {
+                console.log(i)
+                let d = state.nc_data[type][i];
+                Vue.set(d, 'deleted', 1)
+            }
+        },
+
         //insert new row to nc data
         addNCDataField(state, params) {
             let type = params.nc_type;
@@ -54,8 +71,8 @@ export default ({
         },
 
 
-        setVLifeSettingData(state, data) {
-            state.vlife_setting = data
+        setIndustryRecommendation(state, data) {
+            state.industry_recommendation = data
         }
     },
     /*
@@ -70,10 +87,11 @@ export default ({
                 store.commit('setNCData', data)
             })
         },
-        getVLifeSetting(store) {
-            axios.get('/get_vlife_setting').then(res => {
+        getIndustryRecommendation(store) {
+            let contact_id = store.state.contact_id;
+            axios.get('/vlife/my_contact/' + contact_id + '/get_nc_industry_recommendation').then(res => {
                 let data = res.data
-                store.commit('setVLifeSettingData', data);
+                store.commit('setIndustryRecommendation', data);
             })
         },
         addNCDataField(store, params) {
@@ -111,6 +129,41 @@ export default ({
             new_params.object = obj;
             store.commit('addNCDataField', new_params)
 
+        },
+        onChangeNCFollowBenchmark(store, params) {
+
+            let type = params.nc_type;
+            let total_amount = store.state.industry_recommendation[type]
+
+            let params2 = { 'nc_type': type };
+            store.commit('resetNCDataField', params2)
+
+            axios.get('/vlife/my_contact/get_nc_industry_recommendation_distribution', {
+                params: {
+                    'category': type,
+                    'total': total_amount
+                }
+            }).then(res => {
+                let data = res.data;
+
+                for (let i in data) {
+                    let d = data[i]
+                    let params3 = {
+                        nc_type: type,
+                        object: {
+                            'type': d.type,
+                            'description': d.description,
+                            'amount': 0,
+                            'year': 0,
+                            'return_percent': 0,
+                            'inflation': 0,
+                            'total_amount': d.total_amount,
+                        }
+                    }
+
+                    store.commit('addNCDataField', params3)
+                }
+            })
         },
         saveNC(store) {
             let contact_id = store.state.contact_id;

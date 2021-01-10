@@ -3,25 +3,27 @@
 @section('content')
 <div class="card m-2">
     <div class="card-body">
+
+        
         <h2>Needs Calculator Type Maintenance</h2>
-        <div class="m-2">
-            <a href="{{url('vlife/nc_type_maintenance/create')}}" class="btn btn-success">Add New</a>
-        </div>
         <table class="table table-bordered table-striped table-sm">
             <thead>
                 <tr>
-                    <th class="fit">OP</th>
-                    <th class="fit">ID</th>
-                    <th>Name</th>
+                    <th >OP</th>
+                    <th>Category Code</th>
+                    <th>Category Name</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $d)
                 <tr>
-                    <td>X
+                    <td class="fit">
+                        <a href="{{url('vlife/setting/nc_type_category/'.$d->id.'/edit')}}" class="btn btn-primary">
+                            Edit Category
+                        </a>
                     </td>
-                    <td>{{$d->id}}</td>
-                    <td>{{$d->name}}</td>
+                    <td>{{$d->category_code}}</td>
+                    <td>{{$d->category_name}}</td>
                 </tr>
                 @endforeach
             </tbody>

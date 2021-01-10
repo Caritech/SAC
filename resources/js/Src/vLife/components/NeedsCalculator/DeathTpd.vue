@@ -22,13 +22,13 @@
                     v-model="NCPreference.nc_death_tpd_follow"
                     @input="setBenchmarkAmount"
                 >
-                    Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(VLifeSetting.nc_death_tpd) }} )
+                    Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(IndustryRecommendation.death_tpd) }} )
                 </my-checkbox>
             </b-card>
 
             <hr>
 
-            <div v-if="NCFollowBenchmark==0">
+            <div>
                 <h5>I want</h5>
                 <b-card
                     no-body
@@ -38,6 +38,7 @@
                 >
                     <!-- Start Header -->
                     <div class="card-header">
+
                         <h5 class="title-cyan">
                             <b-btn
                                 size="sm"
@@ -116,9 +117,9 @@ export default {
             if (this.NCData == null) return {}
             return this.NCData.preference
         },
-        VLifeSetting() {
-            if (this.state.vlife_setting == null) return {}
-            return this.state.vlife_setting
+        IndustryRecommendation() {
+            if (this.state.industry_recommendation == null) return {}
+            return this.state.industry_recommendation
         },
         NCDeathTpdData() {
             let data = this.NCData.death_tpd
@@ -134,20 +135,17 @@ export default {
             let total = 0
             if (this.NCDeathTpdData == null) return "Pending Data"
 
-            if (this.NCFollowBenchmark == 0) {
-                this.NCDeathTpdData.forEach(function (v, k) {
-                    let is_deleted = v.deleted ?? 0
-                    if (!is_deleted) {
-                        total += parseFloat(v.total_amount)
-                    }
-                })
-            } else {
-                total = this.NCPreference.nc_death_tpd
-            }
+            this.NCDeathTpdData.forEach(function (v, k) {
+                let is_deleted = v.deleted ?? 0
+                if (!is_deleted) {
+                    total += parseFloat(v.total_amount)
+                }
+            })
 
             return total
         },
         DeathTpdBreakdown() {
+            //HARDCODED
             let breakdown = {
                 final_expenses: [],
                 estate_execution: [],
@@ -196,11 +194,16 @@ export default {
         saveNC() {
             this.$store.dispatch("needs_calculator/saveNC")
         },
-        setBenchmarkAmount() {
-            let params = {
-                nc_type: "nc_death_tpd",
+        setBenchmarkAmount(event) {
+            if (event == 1) {
+                let params = {
+                    nc_type: "death_tpd",
+                }
+                this.$store.dispatch(
+                    "needs_calculator/onChangeNCFollowBenchmark",
+                    params
+                )
             }
-            this.$store.commit("needs_calculator/setNCFollowBenchmark", params)
         },
     },
     created() {

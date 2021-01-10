@@ -5,11 +5,62 @@
 */
 function get_icon_path_by_type($type)
 {
-    if ($type == 'final_expenses') {
+    if ($type == 'personal_medical') {
+        return asset('images/pdf/personal_medical.png');
+    } elseif ($type == 'income_replacement') {
+        return asset('images/pdf/income_replacement.png');
+    } elseif ($type == 'final_expenses') {
         return asset('images/pdf/final_expenses.png');
+    } elseif ($type == 'estate_execution') {
+        return asset('images/pdf/estate_execution.png');
+    } elseif ($type == 'parents_allowance') {
+        return asset('images/pdf/parents_allowance.png');
+    } elseif ($type == 'spouse_allowance') {
+        return asset('images/pdf/spouse_allowance.png');
+    } elseif ($type == 'spouse_retirement') {
+        return asset('images/pdf/spouse_retirement.png');
+    } elseif ($type == 'children_allowance') {
+        return asset('images/pdf/children_allowance.png');
+    } elseif ($type == 'children_education') {
+        return asset('images/pdf/children_education.png');
+    } elseif ($type == 'children_competition_capital') {
+        return asset('images/pdf/children_competition_capital.png');
+    } elseif ($type == 'mortgage_loan') {
+        return asset('images/pdf/mortgage_loan.png');
+    } elseif ($type == 'car_loan') {
+        return asset('images/pdf/car_loan.png');
+    } elseif ($type == 'study_loan') {
+        return asset('images/pdf/study_loan.png');
+    } elseif ($type == 'credit_card') {
+        return asset('images/pdf/credit_card.png');
+    } elseif ($type == 'personal_loan') {
+        return asset('images/pdf/personal_loan.png');
+    } elseif ($type == 'business_loan') {
+        return asset('images/pdf/business_loan.png');
+    } elseif ($type == 'other_loan') {
+        return asset('images/pdf/other_loan.png');
+    } elseif ($type == 'special_wish') {
+        return asset('images/pdf/special_wish.png');
     } else {
         return asset('images/pdf/placeholder.png');
     }
+}
+
+function get_contact_annual_income($contact_id)
+{
+    $cashflow = DB::table('vlife_cashflow')
+        ->where('contact_id', $contact_id)
+        ->where('incl', 1)
+        ->get();
+    $annual_amount = 0;
+    foreach ($cashflow as $d) {
+        $amount = $d->amount;
+        if ($d->frequency == 'Monthly') {
+            $amount *= 12;
+        }
+        $annual_amount += $amount;
+    }
+    return $annual_amount;
 }
 
 

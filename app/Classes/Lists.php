@@ -4,6 +4,14 @@ namespace App\Classes;
 
 class Lists
 {
+    static function nc_category()
+    {
+        return [
+            'medical' => 'Medical',
+            'critical_illness' => 'Critical Illness',
+            'death_tpd' => 'Death & TPD',
+        ];
+    }
     static function insurance_assured()
     {
         $d = ['Self', 'Spouse name', 'Child name'];

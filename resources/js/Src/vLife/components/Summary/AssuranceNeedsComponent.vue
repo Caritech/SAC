@@ -304,28 +304,6 @@ export default {
         },
     },
     methods: {
-        getName(name, type) {
-            if (name == "personal_medical") {
-                return "PERSONAL MEDICAL"
-            } else if (name == "medical") {
-                return "MEDICAL"
-            } else if (name == "ci") {
-                return "CRITICAL ILLNESS"
-            } else if (name == "insurance") {
-                return "INSURANCE"
-            } else if (name == "income_replacement") {
-                return "Income Replacement"
-            } else if (name == "others") {
-                return "Others"
-            } else if (name == "death") {
-                return "Death / TPD"
-            } else if (name == "final_expenses") {
-                return "Final Expenses"
-            } else if (name == "parents_allowance") {
-                return "Parent Allowance"
-            }
-            return name
-        },
         //percentage * amount
         calAmount(v) {
             if (v.incl == 1) {

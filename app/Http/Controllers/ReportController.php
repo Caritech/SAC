@@ -22,58 +22,50 @@ class ReportController extends Controller
         $nc_preference = DB::Table('vlife_nc_preference')->where('contact_id', $id)->first();
 
         //MEDICAL
-        if ($nc_preference->nc_medical_follow) {
-            $personal_medical['want'] = $nc_preference->nc_medical;
-            $personal_medical['description'] = 'Follow Industry Benchmark';
-        } else {
-            $medical = DB::Table('vlife_medical')
-                ->SelectRaw('
+
+        $medical = DB::Table('vlife_medical')
+            ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-                ->where('contact_id', $id)
-                ->where('type', 'personal_medical')
-                ->where('total_amount', '>', '0')
-                ->first();
-            $personal_medical['want'] = $medical->total_amount;
-            $personal_medical['description'] = $medical->description;
-        }
+            ->where('contact_id', $id)
+            ->where('type', 'personal_medical')
+            ->where('total_amount', '>', '0')
+            ->first();
+        $personal_medical['want'] = $medical->total_amount;
+        $personal_medical['description'] = $medical->description;
+
 
         //Critical Illness
-        if ($nc_preference->nc_critical_illness_follow) {
-            $income_replacement['want'] = $nc_preference->nc_critical_illness;
-            $income_replacement['description'] = 'Follow Industry Benchmark';
-        } else {
-            $ci = DB::Table('vlife_critical_illness')
-                ->SelectRaw('
+
+        $ci = DB::Table('vlife_critical_illness')
+            ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-                ->where('contact_id', $id)
-                //->where('type', 'income_replacement')
-                ->where('total_amount', '>', '0')
-                ->first();
-            $income_replacement['want'] = $ci->total_amount;
-            $income_replacement['description'] = $ci->description;
-        }
+            ->where('contact_id', $id)
+            //->where('type', 'income_replacement')
+            ->where('total_amount', '>', '0')
+            ->first();
+        $income_replacement['want'] = $ci->total_amount;
+        $income_replacement['description'] = $ci->description;
+
 
         //Death TPD
-        if ($nc_preference->nc_death_tpd_follow) {
-            $death_tpd['want'] = $nc_preference->nc_death_tpd;
-            $death_tpd['description'] = 'Follow Industry Benchmark';
-        } else {
-            $death_tpd = DB::Table('vlife_death_tpd')
-                ->SelectRaw('
+
+        $death_tpd = DB::Table('vlife_death_tpd')
+            ->SelectRaw('
                     type,
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-                ->where('contact_id', $id)
-                ->where('total_amount', '>', '0')
-                ->groupBy('type')
-                ->get();
-        }
+            ->where('contact_id', $id)
+            ->where('total_amount', '>', '0')
+            ->groupBy('type')
+            ->get();
+
         $order_death = [];
+
         foreach ($death_tpd as $d) {
             $order_death[$d->type] = [
                 'want' => $d->total_amount,
@@ -140,6 +132,10 @@ class ReportController extends Controller
 
         $data_have['critical_illness'] = $group_insurance->sum_critical_illness;
         $data_have['death_tpd'] = $group_insurance->sum_death_tpd;
+
+        //DEATH & TPD need to add Saving, EPF, Unit Trust, Private Qquit
+        $assests_investment = DB::table('vlife_asset_investment')->where('contact_id', $id)->where('incl', 1)->sum('current_value');
+        $data_have['death_tpd'] += $assests_investment;
 
         $pdf = new \Mpdf\Mpdf();
 

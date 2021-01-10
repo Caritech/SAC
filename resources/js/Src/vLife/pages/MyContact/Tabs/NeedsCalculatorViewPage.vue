@@ -100,7 +100,7 @@ export default {
 
         this.$store.commit("needs_calculator/setId", contact_id)
         this.$store.dispatch("needs_calculator/getNeedsCalculatorData")
-        this.$store.dispatch("needs_calculator/getVLifeSetting")
+        this.$store.dispatch("needs_calculator/getIndustryRecommendation")
     },
 }
 </script>

@@ -39,6 +39,19 @@ class Menu
             ],
         ],
 
+        [
+            'text' => 'Maintenance',
+            'icon' => 'fa fa-2x fa-cogs',
+            'access' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'NC Category',
+                    'icon' => 'fa fa-cogs',
+                    'url' => '/vlife/setting/nc_type_category',
+                ],
+            ],
+        ],
+
 
 
     ]; // END OF MENU

@@ -22,13 +22,13 @@
                     v-model="NCPreference.nc_medical_follow"
                     @input="setBenchmarkAmount"
                 >
-                    Follow the recommended industry minimum benchmark ( {{ moneyFormat(VLifeSetting.nc_medical) }} )
+                    Follow the recommended industry minimum benchmark ( {{ moneyFormat(IndustryRecommendation.medical) }} )
                 </my-checkbox>
             </b-card>
 
             <hr>
 
-            <div v-if="NCFollowBenchmark==0">
+            <div>
                 <h5>I want</h5>
                 <b-card
                     v-for="(type_data,medical_type) in MedicalBreakdown"
@@ -118,9 +118,10 @@ export default {
             if (this.NCData == null) return {}
             return this.NCData.preference
         },
-        VLifeSetting() {
-            if (this.state.vlife_setting == null) return {}
-            return this.state.vlife_setting
+        IndustryRecommendation() {
+            if (this.state.industry_recommendation == null) return {}
+
+            return this.state.industry_recommendation
         },
         NCMedicalData() {
             let data = this.NCData.medical
@@ -136,16 +137,12 @@ export default {
             let total = 0
             if (this.NCMedicalData == null) return "Pending Data"
 
-            if (this.NCFollowBenchmark == 0) {
-                this.NCMedicalData.forEach(function (v, k) {
-                    let is_deleted = v.deleted ?? 0
-                    if (!is_deleted) {
-                        total += parseFloat(v.total_amount)
-                    }
-                })
-            } else {
-                total = this.NCPreference.nc_medical
-            }
+            this.NCMedicalData.forEach(function (v, k) {
+                let is_deleted = v.deleted ?? 0
+                if (!is_deleted) {
+                    total += parseFloat(v.total_amount)
+                }
+            })
 
             return total
         },
@@ -183,11 +180,16 @@ export default {
         saveNC() {
             this.$store.dispatch("needs_calculator/saveNC")
         },
-        setBenchmarkAmount() {
-            let params = {
-                nc_type: "nc_medical",
+        setBenchmarkAmount(event) {
+            if (event == 1) {
+                let params = {
+                    nc_type: "medical",
+                }
+                this.$store.dispatch(
+                    "needs_calculator/onChangeNCFollowBenchmark",
+                    params
+                )
             }
-            this.$store.commit("needs_calculator/setNCFollowBenchmark", params)
         },
     },
     created() {
