@@ -397,4 +397,12 @@ class SummaryController extends Controller
 
         return $data;
     }
+
+    public function save(Request $request)
+    {
+        $contact_id = $request->input('contact_id');
+        $form = $request->input('form');
+        Contacts::find($contact_id)->fill($form)->save();
+        return 'success';
+    }
 }

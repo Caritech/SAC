@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use DB;
 use mpd\mpdf;
+use App\Models\Contacts;
 
 class ReportController extends Controller
 {
@@ -137,16 +138,27 @@ class ReportController extends Controller
         $assests_investment = DB::table('vlife_asset_investment')->where('contact_id', $id)->where('incl', 1)->sum('current_value');
         $data_have['death_tpd'] += $assests_investment;
 
-        $pdf = new \Mpdf\Mpdf();
+        $contact = DB::table('vlife_contacts')->where('id', $id)->first();
 
+        $last_review_date = $contact->last_review_date;
+        $special_remark = $contact->special_remark;
+        $next_review_date = '';
+
+        if ($last_review_date != null) {
+            $next_review_date = date('Y-m-d', strtotime($last_review_date . ' + 3 year'));
+        }
+
+        $pdf = new \Mpdf\Mpdf();
         //return view('reports/my_contact/life_assurance_needs_summary_report');
         $html = view('reports/my_contact/life_assurance_needs_summary_report', [
             'want' => $data_want,
             'have' => $data_have,
-            'medical_insurance' => $medical_insurance
+            'medical_insurance' => $medical_insurance,
+            'next_review_date' => $next_review_date,
+            'special_remark' => $special_remark
         ])->render();
 
-        $contact = DB::table('vlife_contacts')->where('id', $id)->first();
+
         $pdf->SetHTMLHeader('
             <div style="float: left; width: 80%;font-size:15px">Name: ' . $contact->name . '</div>
         ');

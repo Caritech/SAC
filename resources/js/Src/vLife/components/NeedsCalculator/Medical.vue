@@ -48,7 +48,7 @@
                             >
                                 <i class="fa fa-chevron-down"></i>
                             </b-btn>
-                            <span class="ml-2">{{getName(medical_type)}}</span>
+                            <span class="ml-2">{{geTypeNameByTypeCode(medical_type)}}</span>
                             <b-btn
                                 size="sm"
                                 variant="primary"

@@ -329,7 +329,7 @@ function displayDate($date)
         return null;
     } else {
 
-        return date(config('app.dateFormat'), strtotime($date));
+        return date('d-M-Y', strtotime($date));
     }
 }
 function displayTime($time)

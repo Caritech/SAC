@@ -254,7 +254,7 @@ export default {
                 //1st level (Medical, Critcal Illness, Death)
                 if (result[v.category] == null) {
                     result[v.category] = {
-                        title: vm.getName(v.category),
+                        title: vm.geTypeNameByTypeCode(v.category),
                         total: 0,
                     }
                 }
@@ -271,7 +271,7 @@ export default {
                     result[v.category][v.need_have]["items"][item_type] == null
                 ) {
                     result[v.category][v.need_have]["items"][item_type] = {
-                        title: vm.getName(v.type),
+                        title: vm.geTypeNameByTypeCode(v.type),
                         total: 0,
                     }
                 }

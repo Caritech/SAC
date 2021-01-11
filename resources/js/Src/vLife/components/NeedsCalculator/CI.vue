@@ -48,7 +48,7 @@
                             >
                                 <i class="fa fa-chevron-down"></i>
                             </b-btn>
-                            <span class="ml-2">{{getName(ci_type)}}</span>
+                            <span class="ml-2">{{geTypeNameByTypeCode(ci_type)}}</span>
                             <b-btn
                                 size="sm"
                                 variant="primary"

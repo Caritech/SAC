@@ -164,6 +164,9 @@ Route::prefix('vlife')->group(function () {
     Route::get('/my_contact/summary/get_insurance_policy_premium', 'SummaryController@get_insurance_policy_premium');
     Route::get('/my_contact/summary/get_assurance_needs', 'SummaryController@get_assurance_needs');
 
+    //SAVE Summary
+    Route::post('my_contact/summary/save', 'SummaryController@save');
+
     //Report
     Route::get('/my_contact/{id}/print_summary_report', 'ReportController@print_summary_report');
 

@@ -125,6 +125,8 @@ class VLifeController extends Controller
             }
 
             foreach ($data['deleted_data'] as $deleted_data) {
+                if (!isset($deleted_data['id'])) continue;
+
                 if ($deleted_data['name'] == 'address') {
                     Address::find($deleted_data['id'])->delete();
                 } elseif ($deleted_data['name'] == 'company') {

@@ -177,12 +177,14 @@
 <div class="" style="height:20px"></div>
 
 <!-- Special Remark -->
-{{-- <div class="w100">
+<div class="w100">
   <div class="p-1 blue-grey darken-4 yellow-text bold w30">
     <span class="" style="font-size:20px">Special Remarks : </span>
   </div>
-  <p class="w100 remark-field"></p>
-</div> --}}
+  <p class="w100 remark-field">
+    {{$special_remark}}
+  </p>
+</div>
 
 
 <!-- What Right Time to male review -->
@@ -254,13 +256,13 @@
 <div class="" style="height:50px"></div>
 
 <!-- Next Review Date -->
-{{-- <div class="w100 center">
+<div class="w100 center">
   <div class="w10 white white-text">.</div>
   <div class="w30 p-5 bold" style="font-size:15px">
     Your next Review is on
   </div>
   <div class="w30 blue-grey darken-4 p-5 bold yellow-text" style="font-size:20px">
-    {{ date("F Y", strtotime(" + 3 year")) }}
+    {{ displayDate($next_review_date) }}
   </div>
-</div> --}}
+</div>
 @endsection

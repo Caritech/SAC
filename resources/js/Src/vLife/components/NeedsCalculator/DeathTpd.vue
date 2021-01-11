@@ -48,7 +48,7 @@
                             >
                                 <i class="fa fa-chevron-down"></i>
                             </b-btn>
-                            <span class="ml-2">{{getName(death_tpd_type)}}</span>
+                            <span class="ml-2">{{geTypeNameByTypeCode(death_tpd_type)}}</span>
                             <b-btn
                                 size="sm"
                                 variant="primary"

@@ -221,7 +221,7 @@ Vue.mixin({
       })
       return counter - 1
     },
-    getName(name, type) {
+    geTypeNameByTypeCode(name, type) {
       if (name == "personal_medical") {
         return "PERSONAL MEDICAL"
       } else if (name == "medical") {
