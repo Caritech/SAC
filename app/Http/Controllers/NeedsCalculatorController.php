@@ -26,6 +26,10 @@ class NeedsCalculatorController extends Controller
         $nc_data = [];
 
         $preference = NCPreference::where('contact_id', $id)->first();
+        if ($preference == null) {
+            NCPreference::create(['contact_id' => $id]);
+        }
+        $preference = NCPreference::where('contact_id', $id)->first();
         $medical = DB::table('vlife_medical')->where('contact_id', $id)->get();
         $critical_illness = DB::Table('vlife_critical_illness')->where('contact_id', $id)->get();
         $death_tpd = DB::Table('vlife_death_tpd')->where('contact_id', $id)->get();

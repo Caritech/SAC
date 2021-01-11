@@ -199,7 +199,6 @@ export default {
             this.asset_investment_data.current_value = this.temp
         },
         thousandSeprator(amount) {
-            console.log(amount)
             if (
                 amount !== "" ||
                 amount !== undefined ||

@@ -165,12 +165,11 @@ export default {
                             })
                             .then((response) => {
                                 /*swal('Event Status Updated!', response.message, response.status);*/
-                                console.log(response),
-                                    Vue.swal(
-                                        response.data.title,
-                                        response.data.message,
-                                        response.data.status
-                                    )
+                                Vue.swal(
+                                    response.data.title,
+                                    response.data.message,
+                                    response.data.status
+                                )
                                 setTimeout(function () {
                                     window.location.reload() // you can pass true to reload function to ignore the client cache and reload from the server
                                 }, 2000)

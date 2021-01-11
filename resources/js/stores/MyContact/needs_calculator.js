@@ -57,7 +57,6 @@ export default ({
             let nc_data_type = state.nc_data[type]
 
             for (let i in nc_data_type) {
-                console.log(i)
                 let d = state.nc_data[type][i];
                 Vue.set(d, 'deleted', 1)
             }
@@ -183,7 +182,8 @@ export default ({
                             "error"
                         )
                     } else {
-                        Vue.swal("Success", "Record has been saved", "success")
+                        store.dispatch('getNeedsCalculatorData')
+                        Vue.swal("Success", "Record has been saved, Reloading Data ...", "success")
 
                     }
                 })

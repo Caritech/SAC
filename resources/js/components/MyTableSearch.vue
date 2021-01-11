@@ -305,7 +305,6 @@ export default {
             this.$emit("input", this.search_data)
         },
         filterTypeSelected(ele, $event) {
-            console.log($event)
             ele.filter_type = $event
             this.$emit("input", this.search_data)
         },

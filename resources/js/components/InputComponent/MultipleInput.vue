@@ -2,14 +2,17 @@
     <div>
         <b-row>
             <b-col>
-                <div class="text-dark" style="display: none">{{ value }}</div>
+                <div
+                    class="text-dark"
+                    style="display: none"
+                >{{ value }}</div>
                 <div v-for="(a, key) in arr">
                     <b-row>
                         <b-col cols="2">
                             <b-button
                                 class="btn btn-danger btn-sm"
                                 @click="remove(key)"
-                                ><i class="fa fa-trash"></i>
+                            ><i class="fa fa-trash"></i>
                             </b-button>
                         </b-col>
                         <b-col>
@@ -23,9 +26,10 @@
                 </div>
             </b-col>
             <b-col cols="2">
-                <b-button class="btn btn-success btn-sm" @click="add"
-                    ><i class="fa fa-plus"></i
-                ></b-button>
+                <b-button
+                    class="btn btn-success btn-sm"
+                    @click="add"
+                ><i class="fa fa-plus"></i></b-button>
             </b-col>
         </b-row>
     </div>
@@ -63,7 +67,6 @@ export default {
     },
     updated() {
         this.arr = this.value
-        console.log("on update")
     },
     created() {
         this.arr = this.value

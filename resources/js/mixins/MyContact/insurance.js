@@ -47,7 +47,6 @@ export default ({
                     status: checked,
                 })
                 .then((res) => {
-                    console.log(res.data)
                 })
         },
 

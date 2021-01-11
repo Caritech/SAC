@@ -256,6 +256,16 @@ export default {
                     result[v.category] = {
                         title: vm.geTypeNameByTypeCode(v.category),
                         total: 0,
+                        need: {
+                            title: "need",
+                            total: 0,
+                            items: {},
+                        },
+                        have: {
+                            title: "have",
+                            total: 0,
+                            items: {},
+                        },
                     }
                 }
                 //2st level (Need, have)
@@ -300,6 +310,7 @@ export default {
                 output[v.need_have] += vm.calAmount(v)
             })
             output.items = result
+            console.log(output)
             return output
         },
     },

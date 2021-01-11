@@ -223,7 +223,6 @@ export default {
             this.income_data.amount = this.temp
         },
         thousandSeprator(amount) {
-            console.log(amount)
             if (
                 amount !== "" ||
                 amount !== undefined ||
@@ -260,7 +259,6 @@ export default {
                         var res = response.data
                         $vm.income_data = res
                     })
-                //console.log($vm.income_data);
             }
 
             return true

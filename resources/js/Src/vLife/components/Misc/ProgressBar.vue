@@ -7,7 +7,10 @@
                 style="display:inline-block"
                 :style="'width:'+getWidth(d)+'%;color:'+getColor(d)+';text-align:'+getTextAlign(d)+';padding:'+getPadding(d)"
             >
-                <h4 class="font-weight-bold">{{d.title}}</h4>
+                <h4
+                    class="font-weight-bold"
+                    v-if="getWidth(d) > 0"
+                >{{d.title}}</h4>
             </div>
         </div>
         <div class="row">
@@ -17,7 +20,7 @@
                 style="display:inline-block"
                 :style="'width:'+getWidth(d)+'%;background:'+getColor(d)+';text-align:'+getTextAlign(d)+';padding:'+getPadding(d)"
             >
-                <h4>{{ showBarTitle(getWidth(d)) }} %</h4>
+                <h4 v-if="getWidth(d) > 0">{{ showBarTitle(getWidth(d)) }} %</h4>
             </div>
         </div>
     </div>

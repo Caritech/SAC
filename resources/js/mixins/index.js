@@ -129,8 +129,6 @@ Vue.mixin({
       return n;
     },
     getYearDiff(from, to) {
-      console.log(from)
-      console.log(to)
       var years = moment(to).diff(from, 'years');
       return years;
     },
@@ -160,9 +158,6 @@ Vue.mixin({
     },
 
     calculatePV(rate, nper, pmt) {
-      console.log("Rate: " + rate)
-      console.log("NPER: " + nper)
-      console.log("pmt: " + pmt)
       if (rate == 0) {
         return pmt * nper
       } else {

@@ -1185,7 +1185,6 @@ export default {
                 id: id,
                 name: name,
             })
-            console.log(this.contact_data.deleted_data)
         },
     },
     created: function () {

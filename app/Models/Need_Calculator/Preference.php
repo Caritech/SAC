@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Preference extends Model
 {
     protected $table = "vlife_nc_preference";
+    public $timestamps  = false;
     protected $fillable = [
         'contact_id',
         'nc_medical',

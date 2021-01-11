@@ -1027,7 +1027,6 @@ export default {
                 .get("/vlife/get_contact_profile_data/" + this.id)
                 .then((response) => {
                     this.contact_user = response.data
-                    console.log(this.contact_user)
                 })
         },
         countAge(dob) {
@@ -1060,12 +1059,12 @@ export default {
                             })
                             .then((response) => {
                                 /*swal('Event Status Updated!', response.message, response.status);*/
-                                console.log(response),
-                                    Vue.swal(
-                                        response.data.title,
-                                        response.data.message,
-                                        response.data.status
-                                    )
+
+                                Vue.swal(
+                                    response.data.title,
+                                    response.data.message,
+                                    response.data.status
+                                )
                                 setTimeout(function () {
                                     window.location.replace("/vlife/my_contact")
                                 }, 2000)
@@ -1085,7 +1084,6 @@ export default {
             .get("/vlife/get_contact_profile_data/" + this.id)
             .then((response) => {
                 this.contact_user = response.data
-                console.log(this.contact_user)
             })
     },
 }
