@@ -44,9 +44,15 @@
                                 size="sm"
                                 variant="outline-primary"
                                 class="float-left"
-                                v-b-toggle="'collapse-death-tpd'+death_tpd_type"
+                                @click="toggleCollapse(death_tpd_type)"
                             >
-                                <i class="fa fa-chevron-down"></i>
+                                <i
+                                    class="fa"
+                                    :class="{
+                                        'fa-chevron-down':!collapse_death_tpd[death_tpd_type],
+                                        'fa-chevron-up':collapse_death_tpd[death_tpd_type],
+                                    }"
+                                ></i>
                             </b-btn>
                             <span class="ml-2">{{geTypeNameByTypeCode(death_tpd_type)}}</span>
                             <b-btn
@@ -61,10 +67,7 @@
                     </div>
                     <!-- End Header -->
                     <!-- Start Body loop-->
-                    <b-collapse
-                        visible
-                        :id="'collapse-death-tpd'+death_tpd_type"
-                    >
+                    <b-collapse :visible="collapse_death_tpd[death_tpd_type]">
                         <table class="table table-bordered table-sm">
                             <tbody>
                                 <template v-for="death_tpd in type_data">
@@ -176,7 +179,15 @@ export default {
             return breakdown
         },
     },
+    data() {
+        return {
+            collapse_death_tpd: {},
+        }
+    },
     methods: {
+        toggleCollapse(v) {
+            this.collapse_death_tpd[v] = !this.collapse_death_tpd[v]
+        },
         addField(nc_sub_type) {
             let params = {
                 nc_type: "death_tpd",
@@ -208,6 +219,9 @@ export default {
     },
     created() {
         this.id = this.$route.params.id
+        for (let index in this.DeathTpdBreakdown) {
+            this.$set(this.collapse_death_tpd, index, true)
+        }
     },
 }
 </script>

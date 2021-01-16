@@ -44,9 +44,15 @@
                                 size="sm"
                                 variant="outline-primary"
                                 class="float-left"
-                                v-b-toggle="'collapse-medical'+medical_type"
+                                @click="toggleCollapse(medical_type)"
                             >
-                                <i class="fa fa-chevron-down"></i>
+                                <i
+                                    class="fa"
+                                    :class="{
+                                        'fa-chevron-down':!collapse_medical[medical_type],
+                                        'fa-chevron-up':collapse_medical[medical_type],
+                                    }"
+                                ></i>
                             </b-btn>
                             <span class="ml-2">{{geTypeNameByTypeCode(medical_type)}}</span>
                             <b-btn
@@ -61,10 +67,7 @@
                     </div>
                     <!-- End Header -->
                     <!-- Start Body loop-->
-                    <b-collapse
-                        visible
-                        :id="'collapse-medical'+medical_type"
-                    >
+                    <b-collapse :visible="collapse_medical[medical_type]">
                         <table class="table table-bordered table-sm">
                             <tbody>
                                 <template v-for="(medical,medical_index) in type_data">
@@ -106,6 +109,11 @@ import NCIncputField from "../NeedsCalculator/NCInputField"
 export default {
     mixins: [MixinNeedsCalculator],
     components: { NCIncputField },
+    data() {
+        return {
+            collapse_medical: {},
+        }
+    },
     computed: {
         /* Start Renaming  */
         state() {
@@ -162,7 +170,11 @@ export default {
             return breakdown
         },
     },
+
     methods: {
+        toggleCollapse(v) {
+            this.collapse_medical[v] = !this.collapse_medical[v]
+        },
         addField(nc_type, nc_sub_type) {
             let params = {
                 nc_type: nc_type,
@@ -194,6 +206,10 @@ export default {
     },
     created() {
         this.id = this.$route.params.id
+
+        for (let index in this.MedicalBreakdown) {
+            this.$set(this.collapse_medical, index, true)
+        }
     },
 }
 </script>

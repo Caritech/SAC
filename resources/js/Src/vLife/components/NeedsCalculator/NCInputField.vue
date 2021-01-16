@@ -17,10 +17,12 @@
                 <b-form-input v-model="form.description"></b-form-input>
             </td>
             <td>
-                <b-form-input
+                <VueNumeric
+                    currency="$"
+                    separator=","
                     v-model="form.total_amount"
-                    class="text-right"
-                ></b-form-input>
+                    class="form-control text-right"
+                ></VueNumeric>
             </td>
         </template>
 
@@ -41,13 +43,14 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <input
-                        type="number"
-                        class="form-control text-right"
-                        placeholder="PMT"
+                    <VueNumeric
+                        currency="$"
+                        separator=","
                         v-model="form.amount"
+                        class="form-control text-right"
                         @input="calculateTotal"
-                    >
+                    ></VueNumeric>
+
                 </div>
             </td>
             <!-- Year -->
@@ -86,12 +89,12 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <input
-                        type="number"
-                        class="form-control text-right"
-                        placeholder="Total Amount"
+                    <VueNumeric
+                        currency="$"
+                        separator=","
                         v-model="form.total_amount"
-                    >
+                        class="form-control text-right"
+                    ></VueNumeric>
                 </div>
 
             </td>
@@ -103,7 +106,10 @@
 
 <script>
 import MixinNeedsCalculator from "../../../../Mixins/MyContact/needs_calculator"
+import VueNumeric from "vue-numeric"
+
 export default {
+    components: { VueNumeric },
     props: ["propsForm"],
     mixins: [MixinNeedsCalculator],
     data() {

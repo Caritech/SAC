@@ -135,7 +135,7 @@ class ReportController extends Controller
         $data_have['death_tpd'] = $group_insurance->sum_death_tpd;
 
         //DEATH & TPD need to add Saving, EPF, Unit Trust, Private Qquit
-        $assests_investment = DB::table('vlife_asset_investment')->where('contact_id', $id)->where('incl', 1)->sum('current_value');
+        $assests_investment = DB::table('vlife_asset_investment')->where('contact_id', $id)->where('status', 1)->where('incl', 1)->sum('current_value');
         $data_have['death_tpd'] += $assests_investment;
 
         $contact = DB::table('vlife_contacts')->where('id', $id)->first();

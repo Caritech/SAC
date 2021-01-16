@@ -44,9 +44,15 @@
                                 size="sm"
                                 variant="outline-primary"
                                 class="float-left"
-                                v-b-toggle="'collapse-ci'+ci_type"
+                                @click="toggleCollapse(ci_type)"
                             >
-                                <i class="fa fa-chevron-down"></i>
+                                <i
+                                    class="fa"
+                                    :class="{
+                                        'fa-chevron-down':!collapse_ci[ci_type],
+                                        'fa-chevron-up':collapse_ci[ci_type],
+                                    }"
+                                ></i>
                             </b-btn>
                             <span class="ml-2">{{geTypeNameByTypeCode(ci_type)}}</span>
                             <b-btn
@@ -61,10 +67,7 @@
                     </div>
                     <!-- End Header -->
                     <!-- Start Body loop-->
-                    <b-collapse
-                        visible
-                        :id="'collapse-ci'+ci_type"
-                    >
+                    <b-collapse :visible="collapse_ci[ci_type]">
                         <table class="table table-bordered table-sm">
                             <tbody>
                                 <template v-for="ci in type_data">
@@ -161,7 +164,15 @@ export default {
             return breakdown
         },
     },
+    data() {
+        return {
+            collapse_ci: {},
+        }
+    },
     methods: {
+        toggleCollapse(v) {
+            this.collapse_ci[v] = !this.collapse_ci[v]
+        },
         addField(nc_sub_type) {
             let params = {
                 nc_type: "critical_illness",
@@ -193,6 +204,9 @@ export default {
     },
     created() {
         this.id = this.$route.params.id
+        for (let index in this.CIBreakdown) {
+            this.$set(this.collapse_ci, index, true)
+        }
     },
 }
 </script>

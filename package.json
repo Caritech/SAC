@@ -45,6 +45,7 @@
         "vue-float-action-button": "^0.6.6",
         "vue-loading-overlay": "^3.4.0",
         "vue-numeral-filter": "^2.0.0",
+        "vue-numeric": "^2.3.0",
         "vue-router": "^3.4.3",
         "vue-select": "^3.10.8",
         "vue-sweetalert2": "^3.0.8",

@@ -15,6 +15,7 @@ export default ({
             let arr_normal = [
                 'personal_medical',
                 'final_expenses',
+                'estate_execution',
                 'children_education',
                 'children_competition_capital',
                 'credit_card',
@@ -29,11 +30,11 @@ export default ({
                 'income_replacement',
                 'others',
                 'mortgage_loan',
-                'estate_execution',
                 'car_loan',
                 'study_loan',
                 'parents_allowance',
                 'spouse_allowance',
+                'spouse_retirement',
                 'children_allowance',
                 'special_wish',
                 'business_loan'

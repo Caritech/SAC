@@ -380,6 +380,7 @@ class SummaryController extends Controller
             incl,
             current_value AS amount
         ');
+        $death_have2->where('status', 1);
         $death_have2->where('contact_id', $contact_id);
         //$death_have2->where('incl', 1);
         $death_have2 = $death_have2->get()->toArray();

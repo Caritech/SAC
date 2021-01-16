@@ -379,7 +379,7 @@ class VLifeController extends Controller
 
     public function getContactAssetInvestmentData($id)
     {
-        $income_data = DB::table('vlife_asset_investment')->where('id', $id)->first();
+        $income_data = DB::table('vlife_asset_investment')->where('status', 1)->where('id', $id)->first();
 
         return \Response::json($income_data);
     }
