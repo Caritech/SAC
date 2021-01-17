@@ -84,7 +84,8 @@
   ];
 
   $type_death_tpd = [
-    'final_expenses' => 'Final Expenses',
+    'death_tpd' => 'Death & TPD', // only use when follow recommendation ==1
+    'final_expenses' => 'Final Expenses',// only use when follow recommendation ==0
     'estate_execution' => 'Estate Execution',
     'parents_allowance' => 'Parents Allowance',
     'spouse_allowance' => 'Spouse Allowance',
@@ -101,6 +102,12 @@
     'other_loan' => 'Other Loan',
     'special_wish' => 'Special Wish',
   ];
+
+if(isset($want['death_tpd'])){
+  unset($type_death_tpd['final_expenses']);
+}else{
+  unset($type_death_tpd['death_tpd']);
+}
 
 
   $lists_of_type = array_merge($type_personal_medical, $type_critical_illness, $type_death_tpd);

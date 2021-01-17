@@ -11,6 +11,8 @@ function get_icon_path_by_type($type)
         return asset('images/pdf/income_replacement.png');
     } elseif ($type == 'final_expenses') {
         return asset('images/pdf/final_expenses.png');
+    } elseif ($type == 'death_tpd') {
+        return asset('images/pdf/final_expenses.png');
     } elseif ($type == 'estate_execution') {
         return asset('images/pdf/estate_execution.png');
     } elseif ($type == 'parents_allowance') {

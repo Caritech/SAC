@@ -280,6 +280,9 @@ class SummaryController extends Controller
     {
         $contact_id = $request->input('contact_id');
 
+        $nc_preference = DB::Table('vlife_contacts_nc_preference')->where('contact_id', $contact_id)->first();
+
+
         $insurance_description = "
             IF(insurance_type='insurance',
                 CONCAT(IFNULL(policy_no,''),' ',IFNULL(plan_name,'')),
@@ -287,19 +290,33 @@ class SummaryController extends Controller
             )
         ";
 
-        //medical need--------------------------------
-        $medical_need = DB::Table('vlife_contacts_nc_medical');
-        $medical_need->selectRaw('
-            "vlife_contacts_nc_medical" AS model_table,
-            id AS model_id,
-            "medical" AS category,
-            "need" AS need_have,
-            type AS type,
-            description AS description,
-            total_amount AS amount
-        ');
-        $medical_need->where('contact_id', $contact_id);
-        $medical_need = $medical_need->get()->toArray();
+
+        if ($nc_preference->medical_follow == 1) {
+            $medical_need = [
+                0 => [
+                    'category' => 'medical',
+                    'need_have' => 'need',
+                    'type' => 'Industry Recommendation',
+                    'description' => 'Industry Recommendation',
+                    'amount' => $nc_preference->medical,
+                ]
+            ];
+        } else {
+            //medical need--------------------------------
+            $medical_need = DB::Table('vlife_contacts_nc_medical');
+            $medical_need->selectRaw('
+                "vlife_contacts_nc_medical" AS model_table,
+                id AS model_id,
+                "medical" AS category,
+                "need" AS need_have,
+                type AS type,
+                description AS description,
+                total_amount AS amount
+            ');
+            $medical_need->where('contact_id', $contact_id);
+            $medical_need = $medical_need->get()->toArray();
+        }
+
         //medical have--------------------------------
         $medical_have = DB::Table('vlife_contacts_insurance AS vi');
         $medical_have->selectRaw('
@@ -319,8 +336,19 @@ class SummaryController extends Controller
         $medical_have = $medical_have->get()->toArray();
 
         //ci need--------------------------------
-        $ci_need = DB::Table('vlife_contacts_nc_critical_illness');
-        $ci_need->selectRaw('
+        if ($nc_preference->medical_follow == 1) {
+            $ci_need = [
+                0 => [
+                    'category' => 'ci',
+                    'need_have' => 'need',
+                    'type' => 'Industry Recommendation',
+                    'description' => 'Industry Recommendation',
+                    'amount' => $nc_preference->critical_illness,
+                ]
+            ];
+        } else {
+            $ci_need = DB::Table('vlife_contacts_nc_critical_illness');
+            $ci_need->selectRaw('
             "vlife_contacts_nc_critical_illness" AS model_table,
             id AS model_id,
             "ci" AS category,
@@ -329,8 +357,9 @@ class SummaryController extends Controller
             description AS description,
             total_amount AS amount
         ');
-        $ci_need->where('contact_id', $contact_id);
-        $ci_need = $ci_need->get()->toArray();
+            $ci_need->where('contact_id', $contact_id);
+            $ci_need = $ci_need->get()->toArray();
+        }
         //ci have--------------------------------
         $ci_have = DB::Table('vlife_contacts_insurance AS vi');
         $ci_have->selectRaw('
@@ -352,8 +381,19 @@ class SummaryController extends Controller
         $ci_have = $ci_have->get()->toArray();
 
         //death need--------------------------------
-        $death_need = DB::Table('vlife_contacts_nc_death_tpd');
-        $death_need->selectRaw('
+        if ($nc_preference->medical_follow == 1) {
+            $death_need = [
+                0 => [
+                    'category' => 'death',
+                    'need_have' => 'need',
+                    'type' => 'Industry Recommendation',
+                    'description' => 'Industry Recommendation',
+                    'amount' => $nc_preference->death_tpd,
+                ]
+            ];
+        } else {
+            $death_need = DB::Table('vlife_contacts_nc_death_tpd');
+            $death_need->selectRaw('
             "vlife_contacts_nc_death_tpd" AS model_table,
             id AS model_id,
             "death" AS category,
@@ -362,8 +402,9 @@ class SummaryController extends Controller
             description AS description,
             total_amount AS amount
         ');
-        $death_need->where('contact_id', $contact_id);
-        $death_need = $death_need->get()->toArray();
+            $death_need->where('contact_id', $contact_id);
+            $death_need = $death_need->get()->toArray();
+        }
         //death have--------------------------------
         $death_have = DB::Table('vlife_contacts_insurance AS vi');
         $death_have->selectRaw('

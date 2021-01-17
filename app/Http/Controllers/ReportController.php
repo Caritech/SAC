@@ -23,55 +23,68 @@ class ReportController extends Controller
         $nc_preference = DB::Table('vlife_contacts_nc_preference')->where('contact_id', $id)->first();
 
         //MEDICAL
-
-        $medical = DB::Table('vlife_contacts_nc_medical')
-            ->SelectRaw('
+        if ($nc_preference->medical_follow == 1) {
+            $personal_medical['want'] = $nc_preference->medical;
+            $personal_medical['description'] = 'Industry Recommendation';
+        } else {
+            $medical = DB::Table('vlife_contacts_nc_medical')
+                ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-            ->where('contact_id', $id)
-            ->where('type', 'personal_medical')
-            ->where('total_amount', '>', '0')
-            ->first();
-        $personal_medical['want'] = $medical->total_amount;
-        $personal_medical['description'] = $medical->description;
+                ->where('contact_id', $id)
+                ->where('type', 'personal_medical')
+                ->where('total_amount', '>', '0')
+                ->first();
+            $personal_medical['want'] = $medical->total_amount;
+            $personal_medical['description'] = $medical->description;
+        }
+
 
 
         //Critical Illness
-
-        $ci = DB::Table('vlife_contacts_nc_critical_illness')
-            ->SelectRaw('
+        if ($nc_preference->medical_follow == 1) {
+            $income_replacement['want'] = $nc_preference->critical_illness;
+            $income_replacement['description'] = 'Industry Recommendation';
+        } else {
+            $ci = DB::Table('vlife_contacts_nc_critical_illness')
+                ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-            ->where('contact_id', $id)
-            //->where('type', 'income_replacement')
-            ->where('total_amount', '>', '0')
-            ->first();
-        $income_replacement['want'] = $ci->total_amount;
-        $income_replacement['description'] = $ci->description;
+                ->where('contact_id', $id)
+                //->where('type', 'income_replacement')
+                ->where('total_amount', '>', '0')
+                ->first();
+            $income_replacement['want'] = $ci->total_amount;
+            $income_replacement['description'] = $ci->description;
+        }
 
 
         //Death TPD
-
-        $death_tpd = DB::Table('vlife_contacts_nc_death_tpd')
-            ->SelectRaw('
+        if ($nc_preference->death_tpd_follow == 1) {
+            $order_death['death_tpd']['want'] = $nc_preference->death_tpd;
+            $order_death['death_tpd']['description'] = 'Industry Recommendation';
+        } else {
+            $death_tpd = DB::Table('vlife_contacts_nc_death_tpd')
+                ->SelectRaw('
                     type,
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
                 ')
-            ->where('contact_id', $id)
-            ->where('total_amount', '>', '0')
-            ->groupBy('type')
-            ->get();
+                ->where('contact_id', $id)
+                ->where('total_amount', '>', '0')
+                ->groupBy('type')
+                ->get();
 
-        $order_death = [];
+            $order_death = [];
 
-        foreach ($death_tpd as $d) {
-            $order_death[$d->type] = [
-                'want' => $d->total_amount,
-                'description' => $d->description
-            ];
+            foreach ($death_tpd as $d) {
+                $order_death[$d->type] = [
+                    'want' => $d->total_amount,
+                    'description' => $d->description
+                ];
+            }
         }
 
         $data_want = [];
