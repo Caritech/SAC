@@ -100,7 +100,7 @@
                 float: left;
             }
             .w50 {
-                width: 49%;
+                width: 50%;
                 float: left;
             }
             .w60 {

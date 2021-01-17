@@ -41,13 +41,33 @@ export default ({
         inclRecommendation($event, data) {
             let id = data.id
             let checked = $event ?? 0
-            axios
-                .post("/vlife/my_contact/insurance/update_incl", {
-                    insurance_id: id,
-                    status: checked,
-                })
-                .then((res) => {
-                })
+
+            Vue.swal({
+                title: 'Confirmation',
+                text: "Confirm to udpdate the incl status",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios
+                        .post("/vlife/my_contact/insurance/update_incl", {
+                            insurance_id: id,
+                            status: checked,
+                        })
+                        .then((res) => {
+
+                            Vue.swal('Success', 'Page will refresh after the dialog closed', 'success').then(res => {
+                                location.reload();
+                            })
+                        })
+                } else {
+                    data.incl = (data.incl == 1) ? false : 1
+                }
+            })
+
+
+
+
         },
 
     }

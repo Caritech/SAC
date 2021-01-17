@@ -106,10 +106,8 @@
 
 <script>
 import MixinNeedsCalculator from "../../../../Mixins/MyContact/needs_calculator"
-import VueNumeric from "vue-numeric"
 
 export default {
-    components: { VueNumeric },
     props: ["propsForm"],
     mixins: [MixinNeedsCalculator],
     data() {

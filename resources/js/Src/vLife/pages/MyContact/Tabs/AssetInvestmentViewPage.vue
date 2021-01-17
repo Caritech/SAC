@@ -184,40 +184,31 @@ export default {
         },
         inclIncome(data) {
             let id = data.id
+
             Vue.swal({
-                title: "Are you sure?",
-                text: "It will be change the incl status!",
-                type: "warning",
+                title: "Confirmation",
+                text: "Confirm to udpdate the incl status",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes",
-                showLoaderOnConfirm: true,
-
-                preConfirm: function () {
-                    return new Promise(function (resolve) {
-                        axios
-                            .post(
-                                "/vlife/my_contact/asset_investment/update_incl",
-                                {
-                                    id: id,
-                                }
-                            )
-                            .then((response) => {
-                                /*swal('Event Status Updated!', response.message, response.status);*/
-
-                                Vue.swal(
-                                    response.data.title,
-                                    response.data.message,
-                                    response.data.status
-                                )
-                                setTimeout(function () {
-                                    window.location.reload() // you can pass true to reload function to ignore the client cache and reload from the server
-                                }, 2000)
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios
+                        .post(
+                            "/vlife/my_contact/asset_investment/update_incl",
+                            { id: id }
+                        )
+                        .then((response) => {
+                            Vue.swal(
+                                "Success",
+                                "Page will refresh after the dialog closed",
+                                "success"
+                            ).then((res) => {
+                                location.reload()
                             })
-                    })
-                },
-                allowOutsideClick: false,
+                        })
+                } else {
+                    data.incl = data.incl == 1 ? false : 1
+                }
             })
         },
         formatThousandsSeparator(num) {

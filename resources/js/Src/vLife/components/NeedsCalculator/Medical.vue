@@ -19,7 +19,7 @@
             <!-- Follow Industry Standard -->
             <b-card v-if="NCPreference!=null">
                 <my-checkbox
-                    v-model="NCPreference.nc_medical_follow"
+                    v-model="NCPreference.medical_follow"
                     @input="setBenchmarkAmount"
                 >
                     Follow the recommended industry minimum benchmark ( {{ moneyFormat(IndustryRecommendation.medical) }} )
@@ -28,7 +28,7 @@
 
             <hr>
 
-            <div>
+            <div v-if="NCPreference!=null && NCPreference.medical_follow == 0">
                 <h5>I want</h5>
                 <b-card
                     v-for="(type_data,medical_type) in MedicalBreakdown"
@@ -137,7 +137,7 @@ export default {
         },
         NCFollowBenchmark() {
             if (this.NCPreference == null) return 0
-            return this.NCPreference.nc_medical_follow
+            return this.NCPreference.medical_follow
         },
         /* End of Renaming  */
 
@@ -145,12 +145,16 @@ export default {
             let total = 0
             if (this.NCMedicalData == null) return "Pending Data"
 
-            this.NCMedicalData.forEach(function (v, k) {
-                let is_deleted = v.deleted ?? 0
-                if (!is_deleted) {
-                    total += parseFloat(v.total_amount)
-                }
-            })
+            if (this.NCPreference.medical_follow == 1) {
+                total = this.NCPreference.medical
+            } else {
+                this.NCMedicalData.forEach(function (v, k) {
+                    let is_deleted = v.deleted ?? 0
+                    if (!is_deleted) {
+                        total += parseFloat(v.total_amount)
+                    }
+                })
+            }
 
             return total
         },

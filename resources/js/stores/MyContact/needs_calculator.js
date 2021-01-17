@@ -90,6 +90,7 @@ export default ({
             let contact_id = store.state.contact_id;
             axios.get('/vlife/my_contact/' + contact_id + '/get_nc_industry_recommendation').then(res => {
                 let data = res.data
+                console.log(data)
                 store.commit('setIndustryRecommendation', data);
             })
         },
@@ -134,35 +135,21 @@ export default ({
             let type = params.nc_type;
             let total_amount = store.state.industry_recommendation[type]
 
-            let params2 = { 'nc_type': type };
-            store.commit('resetNCDataField', params2)
+            store.state.nc_data.preference[type] = total_amount;
 
-            axios.get('/vlife/my_contact/get_nc_industry_recommendation_distribution', {
-                params: {
-                    'category': type,
-                    'total': total_amount
-                }
-            }).then(res => {
-                let data = res.data;
+            //let params2 = { 'nc_type': type };
+            //store.commit('resetNCDataField', params2)
 
-                for (let i in data) {
-                    let d = data[i]
-                    let params3 = {
-                        nc_type: type,
-                        object: {
-                            'type': d.type,
-                            'description': d.description,
-                            'amount': 0,
-                            'year': 0,
-                            'return_percent': 0,
-                            'inflation': 0,
-                            'total_amount': d.total_amount,
-                        }
-                    }
+            //CLIENT NOT WANT THIS 17 / JAn / 2021
+            // axios.get('/vlife/my_contact/get_nc_industry_recommendation_distribution', {
+            //     params: {
+            //         'category': type,
+            //         'total': total_amount
+            //     }
+            // }).then(res => {
+            //     let data = res.data;
+            // })
 
-                    store.commit('addNCDataField', params3)
-                }
-            })
         },
         saveNC(store) {
             let contact_id = store.state.contact_id;

@@ -194,10 +194,14 @@
                                                     v-model="coverage.frequency"
                                                 />
                                             </td>
-                                            <td><input
-                                                    class="form-control"
+                                            <td>
+                                                <VueNumeric
+                                                    currency="$"
+                                                    separator=","
                                                     v-model="coverage.sum_assured"
-                                                ></td>
+                                                    class="form-control text-right"
+                                                ></VueNumeric>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -229,31 +233,34 @@
                                         title="Room & Board Rate"
                                         divCol="12"
                                     >
-                                        <input
-                                            type="text"
-                                            class="form-control"
+                                        <VueNumeric
+                                            currency="$"
+                                            separator=","
                                             v-model="form.medical_benefit_room_board_rate"
-                                        />
+                                            class="form-control "
+                                        ></VueNumeric>
                                     </my-form-group>
                                     <my-form-group
                                         title="Annual Limit"
                                         divCol="12"
                                     >
-                                        <input
-                                            type="text"
-                                            class="form-control"
+                                        <VueNumeric
+                                            currency="$"
+                                            separator=","
                                             v-model="form.medical_benefit_annual_limit"
-                                        />
+                                            class="form-control "
+                                        ></VueNumeric>
                                     </my-form-group>
                                     <my-form-group
                                         title="Lifetime Limit"
                                         divCol="12"
                                     >
-                                        <input
-                                            type="text"
-                                            class="form-control"
+                                        <VueNumeric
+                                            currency="$"
+                                            separator=","
                                             v-model="form.medical_benefit_lifetime_limit"
-                                        />
+                                            class="form-control "
+                                        ></VueNumeric>
                                     </my-form-group>
                                     <my-form-group
                                         title="Co-Insurance"
@@ -344,11 +351,14 @@
                                     title="Premium Amount"
                                     divCol="12"
                                 >
-                                    <input
-                                        type="text"
-                                        class="form-control"
+
+                                    <VueNumeric
+                                        currency="$"
+                                        separator=","
                                         v-model="form.premium_amount"
-                                    />
+                                        class="form-control "
+                                    ></VueNumeric>
+
                                 </my-form-group>
                                 <my-form-group
                                     v-if="form.insurance_type == 'existing'"
@@ -466,10 +476,14 @@
                                                 </b-btn>
                                             </td>
                                             <td>
-                                                <input
-                                                    class="form-control"
+
+                                                <VueNumeric
+                                                    currency="$"
+                                                    separator=","
                                                     v-model="projected_benefit.projected_value"
-                                                >
+                                                    class="form-control "
+                                                ></VueNumeric>
+
                                             </td>
                                             <td>
                                                 <my-select

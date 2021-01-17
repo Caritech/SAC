@@ -255,7 +255,7 @@
                     </div>
                     <div class="card-body">
                         <my-vuetable
-                            :api-url="'/vlife/get_contact_insurance/' + $route.params.id"
+                            :api-url="'/vlife/get_contact_insurance/' + $route.params.id+'?insurance_type=total_benefit'"
                             :per-page="10"
                             :fields="total_benefit_insurance_fields"
                             ref="myVuetable_total_benefit"

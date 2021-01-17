@@ -106,62 +106,71 @@
   $lists_of_type = array_merge($type_personal_medical, $type_critical_illness, $type_death_tpd);
   ?>
 
+  @php($total_count = 0)
   @php($count = 0)
   @foreach($lists_of_type AS $type => $type_title)
+
   <?php
-  //Amount Want
-  $amount_want = $want[$type]['want'] ?? 0;
-  $description_want = $want[$type]['description'] ?? '';
+    $total_count++;
+    $count++;
+    //Amount Want
+    $amount_want = $want[$type]['want'] ?? 0;
+    $description_want = $want[$type]['description'] ?? '';
 
-  //Amount Have, reduce amount have for each loop
-  if (
-    array_key_exists($type, $type_personal_medical)
-  ) {
-    $amount_have = $have['medical'] ?? 0;
-    $have['medical'] -= $amount_want;
-  } else if (
-    array_key_exists($type, $type_critical_illness)
-  ) {
-    $amount_have = $have['critical_illness'] ?? 0;
-    $have['critical_illness'] -= $amount_want;
-  } else if (
-    array_key_exists($type, $type_death_tpd)
-  ) {
-    $amount_have = $have['death_tpd'] ?? 0;
-    if ($have['death_tpd'] <= $amount_want) {
-      $have['death_tpd'] = 0;
-    } else {
-      $have['death_tpd'] -= $amount_want;
+    $category = '';//medical, ci, death tpd
+
+    //Amount Have, reduce amount have for each loop
+    if ( array_key_exists($type, $type_personal_medical) ) {
+      $amount_have = $have['medical'] ?? 0;
+      $have['medical'] -= $amount_want;
+      $category = 'medical';
+
+    } else if ( array_key_exists($type, $type_critical_illness) ) {
+      $amount_have = $have['critical_illness'] ?? 0;
+      $have['critical_illness'] -= $amount_want;
+      $category = 'critical_illness';
+
+    } else if ( array_key_exists($type, $type_death_tpd) ) {
+      $amount_have = $have['death_tpd'] ?? 0;
+      if ($have['death_tpd'] <= $amount_want) {
+        $have['death_tpd'] = 0;
+      } else {
+        $have['death_tpd'] -= $amount_want;
+      }
+      $category = 'death_tpd';
     }
-  }
 
-  //to prevent value exceed 100% too much, for death tpd use, since it has multiple
-  if (
-    array_key_exists($type, $type_death_tpd)
-  ) {
-    $amount_have = $amount_have > $amount_want ? $amount_want : $amount_have;
-  }
+    //to prevent value exceed 100% too much, for death tpd use, since it has multiple
+    if (
+      array_key_exists($type, $type_death_tpd)
+    ) {
+      $amount_have = $amount_have > $amount_want ? $amount_want : $amount_have;
+    }
 
-  if ($type == "personal_medical") {
-    $insurance = $medical_insurance ?? [];
-  } else {
-    $insurance = [];
-  }
+    if ($type == "personal_medical") {
+      $insurance = $medical_insurance ?? [];
+    } else {
+      $insurance = [];
+    }
 
+    $padding = $total_count % 2 == 0 ? '' : 'pr-1' ;
+    $box_height = $total_count > 6 ? '70px' : '50px' ;
   ?>
   <div class="w50">
-    <div class="pr-3">
+    <div class="{{$padding}}">
       @include('reports.my_contact.components.insurance_item',[
       'title'=>$type_title,
       'want'=>$amount_want,
       'have'=>$amount_have,
       'description' => $description_want,
       'insurance' => [],
-      'type'=>$type
+      'type'=>$type,
+      'category' => $category,
+      'box_height' => $box_height
       ])
     </div>
   </div>
-  @php($count ++)
+  
   @if($count == 6)
     @php($count = 0)
     <pagebreak />

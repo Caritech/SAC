@@ -81,6 +81,9 @@ Vue.component('my-multiple-input', MyMultipleInput)
 import MyRangeInput from './Components/InputComponent/RangeInput';
 Vue.component('my-range-input', MyRangeInput)
 
+import VueNumeric from "vue-numeric"
+Vue.component('VueNumeric', VueNumeric)
+
 import mixin from './Mixins/index'
 import store from './Stores/index'
 import VueRouter from "vue-router"

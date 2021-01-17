@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectedBenefit extends Model
 {
-    protected $table = "vlife_insurance_projected_benefits";
+    protected $table = "vlife_contacts_insurance_projected_benefits";
     protected $fillable = [
         'insurance_id',
         'projected_value',

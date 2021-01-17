@@ -19,7 +19,7 @@
             <!-- Follow Industry Standard -->
             <b-card v-if="NCPreference!=null">
                 <my-checkbox
-                    v-model="NCPreference.nc_critical_illness_follow"
+                    v-model="NCPreference.critical_illness_follow"
                     @input="setBenchmarkAmount"
                 >
                     Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(IndustryRecommendation.critical_illness) }} )
@@ -28,7 +28,7 @@
 
             <hr>
 
-            <div>
+            <div v-if="NCPreference!=null && NCPreference.critical_illness_follow == 0">
                 <h5>I want</h5>
                 <b-card
                     no-body
@@ -130,7 +130,7 @@ export default {
         },
         NCFollowBenchmark() {
             if (this.NCPreference == null) return 0
-            return this.NCPreference.nc_critical_illness_follow
+            return this.NCPreference.critical_illness_follow
         },
         /* End of Renaming  */
 
@@ -138,12 +138,16 @@ export default {
             let total = 0
             if (this.NCCIData == null) return "Pending Data"
 
-            this.NCCIData.forEach(function (v, k) {
-                let is_deleted = v.deleted ?? 0
-                if (!is_deleted) {
-                    total += parseFloat(v.total_amount)
-                }
-            })
+            if (this.NCPreference.critical_illness_follow == 1) {
+                total = this.NCPreference.critical_illness
+            } else {
+                this.NCCIData.forEach(function (v, k) {
+                    let is_deleted = v.deleted ?? 0
+                    if (!is_deleted) {
+                        total += parseFloat(v.total_amount)
+                    }
+                })
+            }
 
             return total
         },

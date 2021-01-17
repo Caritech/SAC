@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Medical extends Model
 {
-    protected $table = "vlife_medical";
+    protected $table = "vlife_contacts_nc_medical";
     protected $fillable = [
         'contact_id',
         'description',

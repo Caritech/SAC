@@ -5,7 +5,7 @@
         <div class="row mb-5">
             <div
                 class="col-8"
-                style="height:70vh;overflow-y:auto"
+                style="!height:70vh;!overflow-y:auto"
             >
                 <div
                     class="card mb-4"
@@ -114,7 +114,13 @@
                             <div class="col-8">Total Have</div>
                             <div class="col-4 text-right">{{moneyFormat(asn['have']['total'])}}</div>
                         </div>
-                        <div class="row font-weight-bold h5">
+                        <div
+                            class="row font-weight-bold h5"
+                            :class="{
+                                'red-text':calAssuranceTotal(asn) < 0,
+                                'green-text':calAssuranceTotal(asn) >= 0,
+                            }"
+                        >
                             <div class="col-8">
                                 Total
                                 <span>{{getAssuranceText(asn)}}</span>
@@ -138,7 +144,13 @@
                             <div class="col-8">Total Have</div>
                             <div class="col-4 text-right">{{ moneyFormat(computedAssurance.have)}}</div>
                         </div>
-                        <div class="row mb-3 font-weight-bold">
+                        <div
+                            class="row mb-3 font-weight-bold h2"
+                            :class="{
+                                'red-text':calAssuranceTotal(computedAssurance) < 0,
+                                'green-text':calAssuranceTotal(computedAssurance) >= 0,
+                            }"
+                        >
                             <div class="col-8">
                                 Total <span>{{getAssuranceText(computedAssurance)}}</span>
                             </div>

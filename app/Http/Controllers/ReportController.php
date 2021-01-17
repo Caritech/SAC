@@ -18,13 +18,13 @@ class ReportController extends Controller
 
     public function print_summary_report($id)
     {
-        //GET Needs Calcualtor Preference [vlife_nc_preference] 
+        //GET Needs Calcualtor Preference [vlife_contacts_nc_preference] 
         //check whether follow Benchmark
-        $nc_preference = DB::Table('vlife_nc_preference')->where('contact_id', $id)->first();
+        $nc_preference = DB::Table('vlife_contacts_nc_preference')->where('contact_id', $id)->first();
 
         //MEDICAL
 
-        $medical = DB::Table('vlife_medical')
+        $medical = DB::Table('vlife_contacts_nc_medical')
             ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
@@ -39,7 +39,7 @@ class ReportController extends Controller
 
         //Critical Illness
 
-        $ci = DB::Table('vlife_critical_illness')
+        $ci = DB::Table('vlife_contacts_nc_critical_illness')
             ->SelectRaw('
                     SUM(total_amount) AS total_amount,
                     GROUP_CONCAT(description) AS description
@@ -54,7 +54,7 @@ class ReportController extends Controller
 
         //Death TPD
 
-        $death_tpd = DB::Table('vlife_death_tpd')
+        $death_tpd = DB::Table('vlife_contacts_nc_death_tpd')
             ->SelectRaw('
                     type,
                     SUM(total_amount) AS total_amount,
@@ -89,7 +89,7 @@ class ReportController extends Controller
             'death_tpd' => 0
         ];
 
-        $medical_insurance = DB::table('vlife_insurance')
+        $medical_insurance = DB::table('vlife_contacts_insurance')
             ->selectRaw('
                 insurer,
                 policy_no,
@@ -110,10 +110,10 @@ class ReportController extends Controller
             $data_have['medical'] += $d->medical_benefit_lifetime_limit;
         }
 
-        $group_insurance = DB::table('vlife_insurance AS i');
+        $group_insurance = DB::table('vlife_contacts_insurance AS i');
         $group_insurance->where('contact_id', $id);
         $group_insurance->where('incl', '1');
-        $group_insurance->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'i.id');
+        $group_insurance->leftJoin('vlife_contacts_insurance_coverage AS vic', 'vic.insurance_id', '=', 'i.id');
         $group_insurance->selectRaw('
             SUM( DISTINCT
                 IF(vic.coverage_type IN ("Death","TPD"),

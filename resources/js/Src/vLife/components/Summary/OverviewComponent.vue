@@ -73,7 +73,7 @@
                                     <td class="font-weight-bold">Total</td>
                                     <td align="right">
                                         <b>{{ moneyFormat(assetsInvestmentDataTotal.amount)}}</b><br>
-                                        <i>({{moneyFormat(assetsInvestmentDataTotal.monthly_amount)}} monthly)</i>
+                                        <i>({{moneyFormat(assetsInvestmentDataTotal.amount_with_death_tpd_insurance)}} in estate)</i>
                                     </td>
                                 </tr>
                             </tbody>
@@ -221,15 +221,18 @@ export default {
             let total = {
                 title: "Total",
                 amount: 0,
-                monthly_amount: 0,
+                amount_with_death_tpd_insurance: 0, //in estate
             }
             for (let key in this.assets_investment_data) {
                 let data = this.assets_investment_data[key]
-                total.amount += parseFloat(data.amount)
+                if (key != "Death TPD") {
+                    total.amount += parseFloat(data.amount)
+                }
+                total.amount_with_death_tpd_insurance += parseFloat(data.amount)
             }
-            total.monthly_amount = total.amount / 12
             return total
         },
+
         assetsInvestmentProgressBarData() {
             let result = [
                 { title: "Probate", value: 0 },

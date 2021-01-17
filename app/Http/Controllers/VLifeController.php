@@ -484,7 +484,7 @@ class VLifeController extends Controller
     public function getInsurance(Request $request, $id)
     {
         $insurance_type = $request->insurance_type;
-        $data = Insurance::from('vlife_insurance AS i');
+        $data = Insurance::from('vlife_contacts_insurance AS i');
         $data->where('contact_id', $id);
         $data->selectRaw('
             i.*,
@@ -502,11 +502,13 @@ class VLifeController extends Controller
             ) AS sum_critical_illness,
             0 AS sum_accidental_death_tpd
         ');
-        if ($insurance_type != null) {
+        if ($insurance_type == 'total_benefit') {
+            $data->where('incl', 1);
+        } else if ($insurance_type != null) {
             $data->where('insurance_type', $insurance_type);
         }
 
-        $data->leftJoin('vlife_insurance_coverage AS vic', 'vic.insurance_id', '=', 'i.id');
+        $data->leftJoin('vlife_contacts_insurance_coverage AS vic', 'vic.insurance_id', '=', 'i.id');
         $data->groupBy('i.id');
 
         $data = VueTable::fetch($data, $request, []);

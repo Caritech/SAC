@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CriticalIllness extends Model
 {
-    protected $table = "vlife_critical_illness";
+    protected $table = "vlife_contacts_nc_critical_illness";
     protected $guarded = ['id'];
     public $timestamps = false;
 }

@@ -19,7 +19,7 @@
             <!-- Follow Industry Standard -->
             <b-card v-if="NCPreference!=null">
                 <my-checkbox
-                    v-model="NCPreference.nc_death_tpd_follow"
+                    v-model="NCPreference.death_tpd_follow"
                     @input="setBenchmarkAmount"
                 >
                     Industry’s Recommendation (ROT - 5 years of annual income). ( {{ moneyFormat(IndustryRecommendation.death_tpd) }} )
@@ -28,7 +28,7 @@
 
             <hr>
 
-            <div>
+            <div v-if="NCPreference!=null && NCPreference.death_tpd_follow == 0">
                 <h5>I want</h5>
                 <b-card
                     no-body
@@ -130,7 +130,7 @@ export default {
         },
         NCFollowBenchmark() {
             if (this.NCPreference == null) return 0
-            return this.NCPreference.nc_death_tpd_follow
+            return this.NCPreference.death_tpd_follow
         },
         /* End of Renaming  */
 
@@ -138,12 +138,16 @@ export default {
             let total = 0
             if (this.NCDeathTpdData == null) return "Pending Data"
 
-            this.NCDeathTpdData.forEach(function (v, k) {
-                let is_deleted = v.deleted ?? 0
-                if (!is_deleted) {
-                    total += parseFloat(v.total_amount)
-                }
-            })
+            if (this.NCPreference.death_tpd_follow == 1) {
+                total = this.NCPreference.death_tpd
+            } else {
+                this.NCDeathTpdData.forEach(function (v, k) {
+                    let is_deleted = v.deleted ?? 0
+                    if (!is_deleted) {
+                        total += parseFloat(v.total_amount)
+                    }
+                })
+            }
 
             return total
         },
