@@ -1,0 +1,11 @@
+.sidebar,
+.breadcrumb,
+.nav {
+    display: none;
+}
+
+@media print {
+    div {
+        break-inside: avoid;
+    }
+}
