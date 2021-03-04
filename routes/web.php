@@ -187,3 +187,8 @@ Route::prefix('vlife')->group(function () {
     //FOR SETTING USE
     Route::get('/get_setting_needs_calculator_items', 'SettingController@get_setting_needs_calculator_items');
 });
+
+//DEVELOPER ONLY ROUTE
+//FOR ARTISAN COMMAND
+Route::get('developer', 'DeveloperController@index');
+Route::post('developer/config_cache', 'DeveloperController@config_cache');
