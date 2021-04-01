@@ -59,8 +59,9 @@ class Lists
     {
         $d = [
             'Death',
+            'Accidental Death',
             'TPD',
-            'Critical Illesses',
+            'Critical Illnesses',
             'Early CI',
             'Others',
         ];

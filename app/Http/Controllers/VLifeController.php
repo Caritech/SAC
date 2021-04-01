@@ -315,6 +315,8 @@ class VLifeController extends Controller
 
         $frequency_options = [
             'Monthly' => 'Monthly',
+            'Quarterly' => 'Quarterly',
+            'Half Yearly' => 'Half Yearly',
             'Yearly' => 'Yearly'
         ];
 
@@ -495,7 +497,7 @@ class VLifeController extends Controller
                 )
             ) AS sum_death_tpd,
             SUM( DISTINCT
-                IF(vic.coverage_type IN ("Critical Illesses"),
+                IF(vic.coverage_type IN ("Critical Illnesses"),
                     vic.sum_assured,
                     0
                 )

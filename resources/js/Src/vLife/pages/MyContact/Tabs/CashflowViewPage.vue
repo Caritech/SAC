@@ -182,7 +182,18 @@ export default {
             var total_amt = 0
 
             for (var i = 0; i < cur_data.length; i++) {
-                total_amt += parseFloat(cur_data[i].amount)
+                let amt = cur_data[i].amount
+                let freq = cur_data[i].frequency
+                if (freq == "Monthly") {
+                    amt = amt
+                } else if (freq == "Yearly") {
+                    amt = amt / 12
+                } else if (freq == "Quarterly") {
+                    amt = amt / 3
+                } else if (freq == "Half Yearly") {
+                    amt = amt / 6
+                }
+                total_amt += parseFloat(amt)
             }
 
             transformed.data.push({

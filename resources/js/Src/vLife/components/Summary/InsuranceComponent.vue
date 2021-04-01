@@ -19,7 +19,7 @@
                     >
                         <template v-if="props.rowData.insurance_type=='existing'">
                             <span class="font-weight-bold">
-                                {{props.rowData.policy_no}}
+                                {{props.rowData.insurer}} {{props.rowData.policy_no}}
                             </span><br>
                             {{props.rowData.plan_name}}
                         </template>

@@ -17,17 +17,6 @@
                         </div>
 
                         <div class="row form-group form-group-sm">
-                            <label class="col-md-3">Description :</label>
-                            <div class="col-md-9">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    v-model="asset_investment_data.description"
-                                />
-                            </div>
-                        </div>
-
-                        <div class="row form-group form-group-sm">
                             <label class="col-md-3">Type :</label>
                             <div class="col-md-9">
                                 <my-select
@@ -37,6 +26,17 @@
                                     itemText="text"
                                     itemValue="value"
                                 ></my-select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group form-group-sm">
+                            <label class="col-md-3">Description :</label>
+                            <div class="col-md-9">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    v-model="asset_investment_data.description"
+                                />
                             </div>
                         </div>
 
@@ -134,7 +134,7 @@ export default {
     data() {
         return {
             type_options: [],
-            asset_investment_data: {},
+            asset_investment_data: { incl: 1 },
             temp: null,
             visible: true,
         }

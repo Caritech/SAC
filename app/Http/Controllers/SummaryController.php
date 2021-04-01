@@ -39,7 +39,7 @@ class SummaryController extends Controller
                 )
             ) AS sum_death_tpd,
             SUM( DISTINCT
-                IF(vic.coverage_type IN ("Critical Illesses"),
+                IF(vic.coverage_type IN ("Critical Illnesses"),
                     vic.sum_assured,
                     0
                 )
@@ -56,7 +56,12 @@ class SummaryController extends Controller
         $data = DB::table('vlife_cashflow AS vc');
         $data->selectRaw('
             type,
-            SUM( IF( frequency="Monthly", amount*12, amount)) AS amount
+            SUM( 
+                IF( frequency="Monthly", amount*12, 0)+
+                IF( frequency="Quarterly", amount*4, 0)+
+                IF( frequency="Half Yearly", amount*2, 0)+
+                IF( frequency="Yearly", amount, 0)
+            ) AS amount
         ');
         $data->groupBy('type');
         $data->where('contact_id', $contact_id);
@@ -188,7 +193,7 @@ class SummaryController extends Controller
                 'title' => 'TPD',
                 'items' => [],
             ],
-            'Critical Illesses' => [
+            'Critical Illnesses' => [
                 'color' => '#00E676',
                 'title' => 'CI',
                 'items' => [],
@@ -375,7 +380,7 @@ class SummaryController extends Controller
             sum_assured AS amount
         ');
         $ci_have->leftJoin('vlife_contacts_insurance_coverage AS vic', 'vic.insurance_id', '=', 'vi.id');
-        $ci_have->where('coverage_type', 'Critical Illesses');
+        $ci_have->where('coverage_type', 'Critical Illnesses');
         $ci_have->where('contact_id', $contact_id);
         //$ci_have->where('incl', 1);
         $ci_have = $ci_have->get()->toArray();

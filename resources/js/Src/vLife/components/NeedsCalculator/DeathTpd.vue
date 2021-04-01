@@ -67,9 +67,13 @@
                     </div>
                     <!-- End Header -->
                     <!-- Start Body loop-->
+
                     <b-collapse :visible="collapse_death_tpd[death_tpd_type]">
                         <table class="table table-bordered table-sm">
                             <tbody>
+
+                                <NCHeader :type="death_tpd_type"></NCHeader>
+
                                 <template v-for="death_tpd in type_data">
                                     <NCIncputField
                                         v-if="death_tpd.deleted != 1"
@@ -103,11 +107,12 @@
 
 <script>
 import MixinNeedsCalculator from "../../../../Mixins/MyContact/needs_calculator"
+import NCHeader from "../NeedsCalculator/NCHeader"
 import NCIncputField from "../NeedsCalculator/NCInputField"
 
 export default {
     mixins: [MixinNeedsCalculator],
-    components: { NCIncputField },
+    components: { NCIncputField, NCHeader },
     computed: {
         /* Start Renaming  */
         state() {

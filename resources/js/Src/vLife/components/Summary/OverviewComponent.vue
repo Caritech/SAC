@@ -1,7 +1,6 @@
 <template>
     <div class="">
         <h1 class="title-cyan">Overview</h1>
-
         <!--  Income-->
         <div class="card mb-4">
             <div class="card-body">
@@ -63,7 +62,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(d,type) in assets_investment_data">
+                                <tr
+                                    v-for="(d,type) in assets_investment_data"
+                                    v-if="d.amount!=0"
+                                >
                                     <td class="fit"><span :style="'display:inline-block;margin-right:5px;width:20px;height:20px;background:'+d.color"></span></td>
                                     <td>{{type}}</td>
                                     <td align="right">{{moneyFormat(d.amount)}}</td>

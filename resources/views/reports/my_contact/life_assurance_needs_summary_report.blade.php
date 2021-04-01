@@ -70,7 +70,7 @@
 
 <h1 class="blue-grey darken-4 p-5 center bold white-text">
   <div class="">LIVE ASSURANCE NEEDS SUMMARY OF</div>
-  <div class="yellow-text">Prospect</div>
+  <div class="yellow-text">{{$contact->name}}</div>
 </h1>
 
 <div class="w100">

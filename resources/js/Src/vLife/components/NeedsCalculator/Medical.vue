@@ -70,6 +70,9 @@
                     <b-collapse :visible="collapse_medical[medical_type]">
                         <table class="table table-bordered table-sm">
                             <tbody>
+                                <tr>
+                                    <td>ddd</td>
+                                </tr>
                                 <template v-for="(medical,medical_index) in type_data">
                                     <NCIncputField
                                         :key="medical_index"

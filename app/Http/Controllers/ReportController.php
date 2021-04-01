@@ -120,7 +120,7 @@ class ReportController extends Controller
             ->get();
 
         foreach ($medical_insurance as $d) {
-            $data_have['medical'] += $d->medical_benefit_lifetime_limit;
+            $data_have['medical'] += $d->medical_benefit_annual_limit;
         }
 
         $group_insurance = DB::table('vlife_contacts_insurance AS i');
@@ -135,7 +135,7 @@ class ReportController extends Controller
                 )
             ) AS sum_death_tpd,
             SUM( DISTINCT
-                IF(vic.coverage_type IN ("Critical Illesses"),
+                IF(vic.coverage_type IN ("Critical Illnesses"),
                     vic.sum_assured,
                     0
                 )
@@ -168,7 +168,8 @@ class ReportController extends Controller
             'have' => $data_have,
             'medical_insurance' => $medical_insurance,
             'next_review_date' => $next_review_date,
-            'special_remark' => $special_remark
+            'special_remark' => $special_remark,
+            'contact' => $contact
         ])->render();
 
 

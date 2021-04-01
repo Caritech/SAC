@@ -92,11 +92,13 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Race :</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <my-select
+                                    size="sm"
+                                    :items="race_options"
                                     v-model="contact_data.race"
-                                />
+                                    itemText="text"
+                                    itemValue="value"
+                                ></my-select>
                             </div>
                             <div class="col-md-4">
                                 <label>Marital Status :</label>
@@ -129,14 +131,17 @@
                                     itemText="text"
                                     itemValue="value"
                                 ></my-select>
-                            </div>
+                            </div>religion_options
                             <div class="col-md-4">
                                 <label>Religion :</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <my-select
+                                    size="sm"
+                                    :items="religion_options"
                                     v-model="contact_data.religion"
-                                />
+                                    itemText="text"
+                                    itemValue="value"
+                                ></my-select>
+
                             </div>
                         </div>
                         <div class="row form-group form-group-sm">

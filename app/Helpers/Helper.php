@@ -60,6 +60,12 @@ function get_contact_annual_income($contact_id)
         if ($d->frequency == 'Monthly') {
             $amount *= 12;
         }
+        if ($d->frequency == 'Quertely') {
+            $amount *= 4;
+        }
+        if ($d->frequency == 'Half Yearly') {
+            $amount *= 2;
+        }
         $annual_amount += $amount;
     }
     return $annual_amount;

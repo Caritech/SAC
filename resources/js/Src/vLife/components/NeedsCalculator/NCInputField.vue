@@ -56,33 +56,106 @@
             <!-- Year -->
             <td width="10%">
                 <input
-                    type="number"
-                    class="form-control text-right"
-                    placeholder="Year"
                     v-model="form.year"
-                    @input="calculateTotal"
-                >
-            </td>
-            <!-- Return Rate-->
-            <td width="10%">
-                <input
-                    type="number"
                     class="form-control text-right"
-                    placeholder="Return %"
-                    v-model="form.return_percent"
                     @input="calculateTotal"
-                >
+                />
             </td>
             <!-- Inflation Rate -->
             <td width="10%">
+                <div class="input-group">
+                    <input
+                        v-model="form.inflation"
+                        class="form-control text-right"
+                        @input="calculateTotal"
+                    />
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </td>
+
+            <!-- Return Rate-->
+            <td width="10%">
+                <div class="input-group">
+                    <input
+                        v-model="form.return_percent"
+                        class="form-control text-right"
+                        @input="calculateTotal"
+                    />
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </td>
+
+            <!-- Amount Calculated -->
+            <td width="20%">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <VueNumeric
+                        currency="$"
+                        separator=","
+                        v-model="form.total_amount"
+                        class="form-control text-right"
+                    ></VueNumeric>
+                </div>
+
+            </td>
+        </template>
+
+        <!--  PV input, required year,pmt,return,inflation to calculate total amount-->
+        <template v-if="inputMethod=='Interest'">
+            <td>
                 <input
-                    type="number"
-                    class="form-control text-right"
-                    placeholder="Inflation %"
-                    v-model="form.inflation"
-                    @input="calculateTotal"
+                    type="text"
+                    class="form-control"
+                    v-model="form.description"
                 >
             </td>
+            <td
+                align="right"
+                width="15%"
+            >
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <VueNumeric
+                        currency="$"
+                        separator=","
+                        v-model="form.amount"
+                        class="form-control text-right"
+                        @input="calculateTotal"
+                    ></VueNumeric>
+
+                </div>
+            </td>
+            <!-- Year -->
+            <td width="10%">
+                <input
+                    v-model="form.year"
+                    class="form-control text-right"
+                    @input="calculateTotal"
+                />
+            </td>
+
+            <!-- Interest Rate-->
+            <td width="10%">
+                <div class="input-group">
+                    <input
+                        v-model="form.return_percent"
+                        class="form-control text-right"
+                        @input="calculateTotal"
+                    />
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </td>
+
             <!-- Amount Calculated -->
             <td width="20%">
                 <div class="input-group">
@@ -121,10 +194,13 @@ export default {
             let arr_fv = this.getFVInputArray()
             let arr_normal = this.getAmountOnlyInputArray()
             let arr_pv = this.getPVInputArray()
+            let arr_intereset = this.getInterestInputArray()
             if (arr_fv.includes(type)) {
                 return "FV"
             } else if (arr_pv.includes(type)) {
                 return "PV"
+            } else if (arr_intereset.includes(type)) {
+                return "Interest"
             } else {
                 return "Normal"
             }
@@ -150,6 +226,12 @@ export default {
                 let pv = this.form.amount
 
                 let calculated_amount = this.calculateFV(rate, nper, pv)
+                this.form.total_amount = Math.round(calculated_amount)
+            } else if (this.inputMethod == "Interest") {
+                let rate = this.form.return_percent / 100
+                let year = this.form.year
+                let amt = this.form.amount
+                let calculated_amount = amt + amt * year * rate
                 this.form.total_amount = Math.round(calculated_amount)
             } else {
                 return this.amount ?? this.total_amount

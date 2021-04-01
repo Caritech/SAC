@@ -19,7 +19,12 @@
                                 class="float-right"
                                 v-b-toggle="'collapse-asn'+asn_key"
                             >
-                                <i class="fa fa-chevron-down"></i>
+                                <span class="when-closed">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                                <span class="when-opened">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
                             </b-btn>
                         </h3>
                     </div>
@@ -53,7 +58,12 @@
                                                             variant="outline-primary"
                                                             v-b-toggle="'collapse-item'+type_key+ele_key"
                                                         >
-                                                            <i class="fa fa-chevron-down"></i>
+                                                            <span class="when-closed">
+                                                                <i class="fa fa-chevron-down"></i>
+                                                            </span>
+                                                            <span class="when-opened">
+                                                                <i class="fa fa-chevron-up"></i>
+                                                            </span>
                                                         </b-btn>
 
                                                     </div>
@@ -85,11 +95,11 @@
                                                         >
                                                             <div class="col-9 text-left">
                                                                 {{item.description}}
-                                                                <my-range-input
+                                                                <!-- <my-range-input
                                                                     v-model="item.percentage"
                                                                     min="0"
                                                                     max="200"
-                                                                ></my-range-input>
+                                                                ></my-range-input> -->
                                                             </div>
                                                             <div class="col-3 text-right">{{moneyFormat(item.amount * item.percentage / 100)}}</div>
 
@@ -404,5 +414,12 @@ div.sticky {
     background-color: yellow;
     padding: 50px;
     font-size: 20px;
+}
+</style>
+
+<style scoped>
+.collapsed > .when-opened,
+:not(.collapsed) > .when-closed {
+    display: none;
 }
 </style>

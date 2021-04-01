@@ -24,20 +24,26 @@ export default ({
             ];
             return arr_normal
         },
+        getInterestInputArray() {
+            let arr_normal = [
+                'mortgage_loan',
+                'car_loan',
+                'study_loan',
+                'business_loan'
+            ];
+            return arr_normal
+        },
         getPVInputArray() {
             // SUB TYPE Category
             let arr_pv = [
                 'income_replacement',
                 'others',
-                'mortgage_loan',
-                'car_loan',
-                'study_loan',
                 'parents_allowance',
                 'spouse_allowance',
                 'spouse_retirement',
                 'children_allowance',
                 'special_wish',
-                'business_loan'
+
             ];
             return arr_pv;
         }

@@ -732,12 +732,18 @@ export default {
                             "error"
                         )
                     } else {
-                        Vue.swal("Success", "Record has been saved", "success")
-                        if (this.form.id == null) {
-                            this.$router.replace(
-                                "/my_contact/insurance/" + data.id + "/edit"
-                            )
-                        }
+                        Vue.swal(
+                            "Success",
+                            "Record has been saved",
+                            "success"
+                        ).then((res) => {
+                            if (this.form.id == null) {
+                                location.href =
+                                    "/vlife/my_contact/insurance/" +
+                                    data.id +
+                                    "/edit"
+                            }
+                        })
                     }
                 })
         },
@@ -756,6 +762,7 @@ export default {
                 })
         },
     },
+
     created: function () {
         //this.asset_investment_data.contact_id = this.$route.params.contact_id
         let insurance_id = this.$route.params.insurance_id

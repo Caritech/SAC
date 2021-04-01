@@ -75,7 +75,7 @@
         cursor: pointer;
     }
 
-    .input-group-prepend {
+    .input-group-prepend,.input-group-append  {
         height: 29px;
     }
 

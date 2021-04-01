@@ -101,18 +101,32 @@ export default ({
             let arr_fv = MixinNC.getFVInputArray();
             let arr_normal = MixinNC.getAmountOnlyInputArray();
             let arr_pv = MixinNC.getPVInputArray();
+            let arr_interest = MixinNC.getInterestInputArray();
 
             //PV or FV Calculation
             if (arr_fv.includes(field) || arr_pv.includes(field)) {
                 obj = {
                     'description': '',
-                    'amount': 0,
-                    'year': 0,
-                    'return_percent': 0,
-                    'inflation': 0,
+                    'amount': null,
+                    'year': null,
+                    'return_percent': null,
+                    'inflation': null,
                     'total_amount': 0,
                 }
             }
+
+            //Interest Calculation
+            if (arr_interest.includes(field)) {
+                obj = {
+                    'description': '',
+                    'amount': null,
+                    'year': null,
+                    'return_percent': null,
+                    'inflation': null,
+                    'total_amount': 10,
+                }
+            }
+
             // NORMAL Calculation
             if (arr_normal.includes(field)) {
                 obj = {

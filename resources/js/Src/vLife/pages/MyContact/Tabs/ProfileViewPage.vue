@@ -1030,10 +1030,15 @@ export default {
                 })
         },
         countAge(dob) {
-            dob = new Date(dob)
-            var today = new Date()
-            var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000))
-            return age
+            if (dob != null) {
+                dob = new Date(dob)
+                var today = new Date()
+                var age = Math.floor(
+                    (today - dob) / (365.25 * 24 * 60 * 60 * 1000)
+                )
+                return age
+            }
+            return "-"
         },
         editProfile() {
             this.$router.push("/my_contact/profile/" + this.id + "/edit")
